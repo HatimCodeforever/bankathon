@@ -93,6 +93,14 @@ def registerpost():
 def dashboard():
     return render_template('dash.html')
 
+@app.route('/jobpost')
+def jobpost():
+    return render_template('job-post.html')
+
+@app.route('/recruit-job-detail')
+def recruiter_job_detail():
+    return render_template('recruiter_job_detail.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

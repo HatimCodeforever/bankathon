@@ -6,8 +6,17 @@ body {
     font-size: 15px;
     line-height: 1.7;
     color: #fff;
-    background-color: #00B074;
-    overflow-x: hidden
+    /* background-color: #c32157;
+    background-image: url('../img/hr1.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat; */
+    overflow-x: hidden;
+}
+
+#particles-js{
+    position : fixed; width:100%; height:100%; z-index:-1;
+    background: black;
 }
 
 a {
@@ -46,7 +55,7 @@ h6 span {
 .section {
     position: relative;
     width: 100%;
-    display: block
+    display: block;
 }
 
 .full-height {
@@ -129,7 +138,7 @@ h6 span {
     height: 100%;
     background-color: #2a2b38;
     position: absolute;
-    border-radius: 0px;
+    border-radius: 3%;
     left: 0;
     top: 0;
     -webkit-transform-style: preserve-3d;
@@ -260,7 +269,7 @@ h6 span {
     -ms-flex-pack: center;
     text-align: center;
     border: none;
-    background-color: #00B074;
+    background-color: #c32157;
     color: #fff;
     box-shadow: 0 8px 24px 0 rgba(18, 248, 173, .2)
 }
