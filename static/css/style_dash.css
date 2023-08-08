@@ -28,14 +28,13 @@
 }
 
 body {
-  color: white;
+  color: black;
   height: 100vh;
-  width: 100%;
+  width: 100vw;
   overflow: hidden;
   display: flex;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
-  background-color: #c32157;
 }
 
 .app-container {
@@ -43,7 +42,7 @@ body {
   height: 100%;
   display: flex;
   position: relative;
-  max-width: 1680px;
+  max-width: 1700px;
 }
 
 .app-left {
@@ -68,13 +67,18 @@ body {
   overflow-x: hidden;
   background-color: var(--app-bg-light);
   padding: 24px;
-  background: radial-gradient(circle, rgba(5,19,64,1) 1%, rgba(4,15,50,1) 100%);
+  /* background: radial-gradient(circle, rgba(5,19,64,1) 1%, rgba(4,15,50,1) 100%); */
+  background-color: #c32157;
 }
 
+.textwork{
+  color: white;
+}
 .app-right {
   flex-basis: 320px;
   width: 320px;
-  background-color: var(--app-bg-dark);
+  background-color: white;
+  color: black;
   height: 100%;
   padding: 64px 0 0 0;
   display: flex;
@@ -148,7 +152,7 @@ button { cursor: pointer; }
   
   &.active {
     .nav-list-link {
-      color: var(--nav-link-active);
+      color: blue;
       
       &:after {
         height: 100%;
@@ -195,7 +199,8 @@ button { cursor: pointer; }
   justify-content: center;
   align-items: center;
   border: none;
-  background-color: var(--app-bg-dark);
+  background-color: white;
+  color: black;
   border-radius: 4px;
   height: 40px;
   width: 40px;
@@ -286,7 +291,8 @@ button { cursor: pointer; }
 .chart-container {
   width: 100%;
   border-radius: 10px;
-  background-color: var(--app-bg-dark);
+  background-color: white;
+  color: black;
   padding: 16px;
   display: flex;
   align-items: center;
@@ -360,7 +366,7 @@ button { cursor: pointer; }
 }
 
 .percentage {
-  fill: #fff;
+  fill: black;
   font-size: 0.5em;
   text-anchor: middle;
   font-weight: 400;
@@ -562,7 +568,7 @@ button { cursor: pointer; }
       background-color: var(--app-logo);
       top: -1px;
       right: -1px;
-      box-shadow: 0 0 0 2px var(--app-bg-dark);
+      box-shadow: 0 0 0 2px white;
     }
   }
 }
@@ -682,7 +688,7 @@ button { cursor: pointer; }
   justify-content: center;
   align-items: center;
   padding: 0;
-  background-color: var(--app-bg-dark);
+  background-color: white;
   border: none;
   color: var(--main-color);
   border-radius: 4px;

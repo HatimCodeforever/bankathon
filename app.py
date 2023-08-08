@@ -53,6 +53,11 @@ def dashboard():
 def jobpost():
     return render_template('job-post.html')
 
+@app.route('/jobs')
+def jobs():
+    return render_template('recruitor-job.html')
+
+# recruitor-job.html
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
