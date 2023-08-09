@@ -127,7 +127,7 @@ def registerpost():
 def dashboard():
     return render_template('dash.html')
 
-@app.route('/jobpost')
+@app.route('/job-post')
 def jobpost():
     return render_template('job-post.html')
 
@@ -163,6 +163,10 @@ def save_job():
 @app.route('/recruit-job-detail')
 def recruiter_job_detail():
     return render_template('recruiter_job_detail.html')
+
+@app.route('/recruit-job-list')
+def recruiter_job_list():
+    return render_template('recruitor-job.html')
 
 
 if __name__ == "__main__":
