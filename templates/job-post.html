@@ -2,60 +2,135 @@
 <html lang="en">
 
 <head>
-    <!-- ... your head content ... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/job-post.css">
-    <!-- <link rel="stylesheet" href="static/css/bootstrap.min.css"> -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"> -->
     <title>SmartHire - Post a Job</title>
 </head>
 
 <body>
-    <div class="containerALL">
-        <h1 class="text-center white">Post Your Job</h1>
-        <div class="container">
-            <div class="form-section">
-                <form id="jobForm">
-                    <input type="text" id="jobTitle" class="form-style" placeholder="Job Title" required><br>
+    <div id="particles-js"></div>
+    <div class="content-wrapper">
+        <form id="jobForm">
+            <div class="containerALL">
+                <h1 class="text-center white">Post Your Job</h1>
 
-                    <label for="jobDescription" class="white">Job Description:</label>
-                    <textarea id="jobDescription" rows="10" required></textarea><br>
+                <div class="container">
+                    <div class="form-section">
+                        <input type="text" id="jobTitle" name="jobTitle" class="form-style" placeholder="Job Title"
+                            required><br>
 
-                    <label for="jobResponsibility" class="white">Job Responsibilities:</label>
-                    <textarea id="jobResponsibility" rows="10" required></textarea><br>
+                        <label for="jobDescription" class="white">Job Description:</label>
+                        <textarea id="jobDescription" name="jobDescription" rows="10" required></textarea><br>
 
-                    <label for="jobQualification" class="white">Job Qualifications:</label>
-                    <textarea id="jobQualification" rows="10" required></textarea><br>
-                </form>
-            </div>
+                        <label for="jobResponsibility" class="white">Job Responsibilities:</label>
+                        <textarea id="jobResponsibility" name="jobResponsibility" rows="10" required></textarea><br>
 
-            <div class="form-section">
-                <label for="jobMode" class="white">Job Mode:</label><br><br>
-                <select id="jobMode" class="form-style" required>
-                    <option value="fullTime">Full Time</option>
-                    <option value="partTime">Part Time</option>
-                    <option value="contract">Contract</option>
-                </select><br><br><br>
-                <label for="salaryRange" class="white">Salary (Approximately):</label>
-                <input class="form-style" type="range" id="salaryRange" name="salaryRange" min="1000" max="100000"
-                    step="1000" value="5000">
-                <p class="white">Selected Value: <span id="rangeValue">5000</span></p><br>
-                <label for="birthdayDate" class="form-label white">Job Deadline:</label>
-                <input type="date" class="form-style" id="birthdayDate" max="2020-12-31" /><br><br><br>
-                <label class="white">Required Skills:</label>
-                <div class="skills-section" id="skillsSection">
-                    <!-- Skills will be dynamically added here -->
+                        <label for="jobQualification" class="white">Job Qualifications:</label>
+                        <textarea id="jobQualification" name="jobQualification" rows="10" required></textarea><br>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="jobMode" class="white">Job Mode:</label><br><br>
+                        <select id="jobMode" name="jobMode" class="form-style" required>
+                            <option value="Full Time">Full Time</option>
+                            <option value="Part Time">Part Time</option>
+                            <option value="Contract">Contract</option>
+                        </select><br><br><br>
+                        <label for="salaryRange" class="white">Salary (Approximately):</label>
+                        <input class="form-style" type="range" id="salaryRange" name="salaryRange" min="1000"
+                            max="100000" step="1000" value="5000">
+                        <p class="white">Selected Value: <span id="rangeValue">5000</span></p><br>
+                        <label for="birthdayDate" class="form-label white">Job Deadline:</label>
+                        <input type="date" class="form-style" id="deadDate" name="deadDate"
+                            max="2020-12-31" /><br><br><br>
+                        <label class="white">Required Skills:</label>
+                        <div class="skills-section" id="skillsSection">
+                            <!-- Skills will be dynamically added here -->
+                        </div>
+                        <button type="button" class="add-button btn" onclick="addSkillInput()">+ Add skill</button>
+                    </div>
                 </div>
-                <button type="button" class="add-button btn" onclick="addSkillInput()">+ Add skill</button>
-            </div>
-        </div>
-        <div id="postedJobs"></div>
-        <button type="submit" class="btn" style="width: 80vw; margin: 3vh 6vw; ">Post Job</button>
+                <div id="postedJobs"></div>
+                <button type="button" class="btn" id="job-save" name="job-save"
+                    style="width: 75vw; position: relative; left: 7%;">Post Job</button>
 
+            </div>
+        </form>
     </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    <script>
+        function gatherSkills() {
+            const skillsInputs = document.querySelectorAll('.skill-input');
+            const skills = [];
+
+            skillsInputs.forEach(skillInput => {
+                const skillNameInput = skillInput.querySelector('.skill-name');
+                const skillWeightInput = skillInput.querySelector('.skill-weight');
+
+                const skillName = skillNameInput.value.trim();
+                const skillWeight = skillWeightInput.value;
+
+                if (skillName !== '') {
+                    skills.push({
+                        name: skillName,
+                        weight: skillWeight
+                    });
+                }
+            });
+
+            return skills;
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const saveButton = document.getElementById('job-save');
+            saveButton.addEventListener('click', async function (event) {
+                event.preventDefault();
+                const skills = gatherSkills();
+                const formData = new FormData(document.querySelector('form'));
+                skills.forEach(skill => {
+                    formData.append('skills[]', skill.name + ',' + skill.weight);
+                });
+                console.log('the skilld are', formData)
+                try {
+                    const response = await fetch('/post-jobpost', {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success === true) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Job posted!',
+                            icon: 'success',
+                            confirmButtonText: 'Okay'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '/dashboard';
+                            }
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Job was not posted pls try again',
+                            icon: 'error',
+                            confirmButtonText: 'Okay'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
     <script src="static/js/job-post.js"></script>
+    <script src="static/node_modules/particles.js/particles.js"></script>
+    <script src="static/js/myparticles.js"></script>
 </body>
 
 </html>
