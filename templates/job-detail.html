@@ -44,22 +44,7 @@
 
 
         <!-- Navbar Start -->
-        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-            <a href="/home" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
-                <h1 class="m-0 text-primary">SmartHire</h1>
-            </a>
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="/home" class="nav-item nav-link">Home</a>
-                    <a href="/about" class="nav-item nav-link">About</a>
-                    <a href="/job-list" class="nav-item nav-link">Jobs</a>
-                    <a href="/contact" class="nav-item nav-link">Contact</a>
-                </div>
-            </div>
-        </nav>
+        <app-navbar></app-navbar>
         <!-- Navbar End -->
 
 
@@ -81,7 +66,7 @@
                             <img class="flex-shrink-0 img-fluid border rounded" src="{{ url_for('static', filename='img/com-logo-2.jpg') }}" alt="" style="width: 80px; height: 80px;">
                             <div class="text-start ps-4">
                                 <h3 class="mb-3">{{ job.job_title }}</h3>
-                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>New York, USA</span>
+                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ job.job_location }}</span>
                                 <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ job.job_mode }}</span>
                                 <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{ job.salary_range }}</span>
                             </div>
@@ -93,7 +78,7 @@
                             <h4 class="mb-3">Responsibility</h4>
                             <p>{{ job.job_responsibility }}</p>
                             <h4 class="mb-3">Qualifications</h4>
-                            <p>{{ job.job_qualifications }}</p>
+                            <p>{{ job.job_qualification }}</p>
                         </div>
         
                         <div class="">
@@ -101,12 +86,7 @@
                             <form>
                                 <div class="row g-3">
                                     <div class="col-12 col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Your Name">
-                                    </div>
-                                    <div class="col-12 col-sm-6">
-                                        <input type="email" class="form-control" placeholder="Your Email">
-                                    </div>
-                                    <div class="col-12 col-sm-6">
+                                        <label>UPLOAD RESUME (PDF or DOC)</label>
                                         <input type="file" class="form-control bg-white">
                                     </div>
                                     <div class="col-12">
@@ -120,17 +100,16 @@
                     <div class="col-lg-4">
                         <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
                             <h4 class="mb-4">Job Summery</h4>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Published On: 01 Jan, 2045</p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Vacancy: 123 Position</p>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>Published On: {{ job.cur_date }}</p>
                             <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: {{ job.job_mode }}</p>
                             <p><i class="fa fa-angle-right text-primary me-2"></i>Salary: {{ job.salary_range }}</p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Location: New York, USA</p>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i>{{ job.job_location }}</p>
                             <p class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Date Line: {{ job.job_deadline }}</p>
                         </div>
-                        <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
+                        <!-- <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
                             <h4 class="mb-4">Company Detail</h4>
                             <p class="m-0">Ipsum dolor ipsum accusam stet et et diam dolores, sed rebum sadipscing elitr vero dolores. Lorem dolore elitr justo et no gubergren sadipscing, ipsum et takimata aliquyam et rebum est ipsum lorem diam. Et lorem magna eirmod est et et sanctus et, kasd clita labore.</p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -160,7 +139,7 @@
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Contact</h5>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Rewa, Madhya Pradesh, IND</p>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>{{ job.job_location }}</p>
                         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+91199919199</p>
                         <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@ajaykumar.com</p>
                         <div class="d-flex pt-2">
@@ -218,6 +197,7 @@
 
     <!-- Template Javascript -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/component.js') }}"></script>
 </body>
 
 </html>

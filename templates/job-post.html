@@ -18,15 +18,15 @@
                 <div class="container">
                     <div class="form-section">
                         <input type="text" id="jobTitle" name="jobTitle" class="form-style" placeholder="Job Title"
-                            required><br><br>
+                            required><br><br><br><br>
 
-                        <label for="jobDescription" class="white">Job Description:</label>
+                        <label for="jobDescription" class="white">Job Description:</label><br><br>
                         <textarea id="jobDescription" name="jobDescription" rows="10" required></textarea><br><br>
 
-                        <label for="jobResponsibility" class="white">Job Responsibilities:</label>
+                        <label for="jobResponsibility" class="white">Job Responsibilities:</label><br><br>
                         <textarea id="jobResponsibility" name="jobResponsibility" rows="10" required></textarea><br><br>
 
-                        <label for="jobQualification" class="white">Job Qualifications:</label>
+                        <label for="jobQualification" class="white">Job Qualifications:</label><br><br>
                         <textarea id="jobQualification" name="jobQualification" rows="10" required></textarea><br>
                     </div>
 
@@ -41,9 +41,12 @@
                         <input class="form-style" type="range" id="salaryRange" name="salaryRange" min="1000"
                             max="100000" step="1000" value="5000">
                         <p class="white">Selected Value: <span id="rangeValue">5000</span></p><br>
-                        <label for="birthdayDate" class="form-label white">Job Deadline:</label>
+                        <label for="deadDate" class="form-label white">Job Deadline:</label><br><br>
                         <input type="date" class="form-style" id="deadDate" name="deadDate"
-                            max="2020-12-31" /><br><br><br>
+                        max="2024-12-31"  /><br><br><br>
+                        <label for="loc" class="form-label white">Job Location:</label><br><br>
+                        <input type="text" class="form-style" id="loc" name="loc"
+                            /><br><br><br>
                         <label class="white">Required Skills:</label>
                         <div class="skills-section" id="skillsSection">
                             <!-- Skills will be dynamically added here -->

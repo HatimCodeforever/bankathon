@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from bson.binary import Binary
 from bson import ObjectId
+from datetime import datetime
 
 
 load_dotenv()
@@ -133,6 +134,8 @@ def jobpost():
 @app.route('/post-jobpost', methods=['POST'])
 def save_job():
     stored_object_id = ObjectId(session['user_id'])
+    current_date = datetime.now().date()
+    formatted_date = current_date.strftime('%Y-%m-%d')
     job_data = {
         'rec_id': stored_object_id,
         'job_title': request.form.get('jobTitle'),
@@ -142,6 +145,8 @@ def save_job():
         'job_mode': request.form.get('jobMode'),
         'salary_range': int(request.form.get('salaryRange')),
         'job_deadline': request.form.get('deadDate'),
+        'job_location': request.form.get('loc'),
+        'cur_date': formatted_date,
         'required_skills': [],
     }
 
@@ -165,12 +170,20 @@ def recruiter_job_detail():
 
 @app.route('/recruit-job-list')
 def recruiter_job_list():
-    return render_template('recruitor-job.html')
+    collection = MongoDB('jobs')
+    partjobs = collection.find({'job_mode': 'Part Time'})
+    fulljobs = collection.find({'job_mode': 'Full Time'})
+    conjobs = collection.find({'job_mode': 'Contract'})
+    return render_template('recruitor-job.html', partjobs = partjobs,fulljobs = fulljobs,conjobs = conjobs)
 
 @app.route('/notification')
 def notification():
     return render_template('notification.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
