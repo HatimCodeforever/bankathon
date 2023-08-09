@@ -6,6 +6,9 @@ import os
 import docx2txt
 from PyPDF2 import PdfReader
 import openai
+from dotenv import load_dotenv
+
+load_dotenv()
 
 #Converting resume from pdf or docx to text
 class Convert2Text:
@@ -44,28 +47,20 @@ class Convert2Text:
         pdfFileObj.close()
         return text
 
-resume = 'GET FROM DATABASE'
-
-converter = Convert2Text()
-
-resume_text = converter.convert_to_text()
-
 # Chatgpt model to extract skills
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-response = openai.ChatCompletion.create(
-  model="gpt-3.5-turbo",
-  messages=[
-    {"role": "AI", "content": "As a member of the HR team, your task is to extract a python list of skills from the resumes of candidates applying for a job. Your goal is to provide a concise and focused list of skills (techinical and non-technical skills) without any elaboration or irrelevant information. Your prompt should ensure that the list of skills extracted accurately reflects the candidate's relevant expertise and qualifications. Avoid including any additional details or explanations in the list. Your prompt should guide the AI model to provide a straightforward and precise python list of skills from the candidate's resume. All the extracted skills should strictly be in lower case by default. Template - ```AI : [Python list of skills]``` " },
-    {"role": "Applicant", "content": "{resume_text}"}
-  ]
-)
+def skills(resume_text):
+    response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "As a member of the HR team, your task is to extract a python list of skills from the resumes of candidates applying for a job. Your goal is to provide a concise and focused list of skills (techinical and non-technical skills) without any elaboration or irrelevant information. Your prompt should ensure that the list of skills extracted accurately reflects the candidate's relevant expertise and qualifications. Avoid including any additional details or explanations in the list. Your prompt should guide the AI model to provide a straightforward and precise python list of skills from the candidate's resume. All the extracted skills should strictly be in lower case by default. Template - ```list of skills``` " },
+        {"role": "user", "content": f"{resume_text}"}
+    ]
+    )
+    return response
 
-print(response.choices[0].message)
-
-# Ranking CV
-applicant_skills = response.choices[0].message
-required_skills = {'GET FROM DATABASE (skill_name)': 'weightage(integer)'}
+# # Ranking CV
 
 def cv_ranker(applicant_skills, required_skills):
     skillset = []
@@ -74,24 +69,18 @@ def cv_ranker(applicant_skills, required_skills):
     actual_total_weight = 0
     for key, value in required_skills.items():
         actual_total_weight += required_skills[key]
-
-
     for skill in applicant_skills:
         if skill.lower() in required_skills:
             skillset.append(skill)
             total_score += required_skills[skill]
         else:
             extra_skills.append(skill)
-
     final_rank = (total_score/ actual_total_weight) *10
-
     return final_rank
 
-fr = cv_ranker(applicant_skills, required_skills)
+# threshold = 8
 
-threshold = 8
-
-if (fr> threshold):
-    print('YAYYYY! You are shortlisted')
-else:
-    print('Haha loser')
+# if (fr> threshold):
+#     print('YAYYYY! You are shortlisted')
+# else:
+#     print('Haha loser')

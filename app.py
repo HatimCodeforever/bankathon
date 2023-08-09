@@ -1,13 +1,14 @@
 from flask import Flask, render_template,request,jsonify,json,redirect,session
 from pymongo import MongoClient
 import os
-# import sys
-# sys.path.append('python')  # Add the directory containing hello.py to sys.path
-# import hello
+import sys
+sys.path.append('python')
+import resume_parser
 from dotenv import load_dotenv
 from bson.binary import Binary
 from bson import ObjectId
 from datetime import datetime
+import re
 
 
 load_dotenv()
@@ -192,29 +193,41 @@ def logout():
 def interview():
     return render_template('interview.html')
 
-app = Flask(__name__)
+# @app.route('/resume-parser', methods=['POST'])
+# def run_script():
+#     uploaded_file = request.files['file']
+#     job_id = request.form.get('job')
+#     req_skills ={}
+#     collection = MongoDB('jobs')
+#     job = collection.find_one({'_id': ObjectId(job_id)})
+#     required_skills = job.get('required_skills', [])
+#     for skill in required_skills:
+#         skill_name = skill.get('name')
+#         skill_weight = skill.get('weight')
+#         req_skills[skill_name] = int(skill_weight)
+#     if uploaded_file and uploaded_file.filename.endswith('.pdf'):
+#         file_path = os.path.join('uploads', uploaded_file.filename)
+#         os.makedirs(os.path.dirname(file_path), exist_ok=True)
+#         uploaded_file.save(file_path)
 
-@app.route('/run_script', methods=['POST'])
-def run_script():
-    uploaded_file = request.files['file']
-    if uploaded_file and uploaded_file.filename.endswith('.pdf'):
-        # Save the uploaded file to a temporary location
-        file_path = os.path.join('uploads', uploaded_file.filename)
-        uploaded_file.save(file_path)
+#         converter = resume_parser.Convert2Text(file_path)
+#         resume_text = converter.convert_to_text()
+#         result = resume_parser.skills(resume_text)
 
-        # Process the uploaded PDF file using your function
-        result = hello.process_pdf(file_path)
+#         applicant_skills = result.choices[0].message
+#         print(applicant_skills)
+#         pattern = r'list of skills:\s*([^\.]+)'
+#         matches = re.findall(pattern, applicant_skills['content'])
+#         m = matches[0].split(',')
+#         print(m)
 
-        # Delete the temporary file after processing
-        os.remove(file_path)
-
-        return jsonify(result)
-    else:
-        return jsonify({'error': 'Invalid file format'})
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
+#         rank = resume_parser.cv_ranker(m,req_skills)
+#         print("Your Rank",rank)
+#         os.remove(file_path)
+#         response = {'success': True}
+#         return jsonify(response)
+#     else:
+#         return jsonify({'error': 'Invalid file format'})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

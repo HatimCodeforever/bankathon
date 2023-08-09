@@ -66,6 +66,7 @@
                             <img class="flex-shrink-0 img-fluid border rounded" src="{{ url_for('static', filename='img/com-logo-2.jpg') }}" alt="" style="width: 80px; height: 80px;">
                             <div class="text-start ps-4">
                                 <h3 class="mb-3">{{ job.job_title }}</h3>
+                                
                                 <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ job.job_location }}</span>
                                 <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ job.job_mode }}</span>
                                 <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{ job.salary_range }}</span>
@@ -81,16 +82,17 @@
                             <p>{{ job.job_qualification }}</p>
                         </div>
         
-                        <div class="">
+                        <div>
                             <h4 class="mb-4">Apply For The Job</h4>
                             <form>
                                 <div class="row g-3">
+                                    <input type="hidden" value="{{ job._id }}" id="job" name="job">
                                     <div class="col-12 col-sm-6">
                                         <label>UPLOAD RESUME (PDF or DOC)</label>
-                                        <input type="file" class="form-control bg-white">
+                                        <input type="file" id="file" name="file" class="form-control bg-white">
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">Apply Now</button>
+                                        <button class="btn btn-primary w-100" id="applybtn" name="applybtn">Apply Now</button>
                                     </div>
                                 </div>
                             </form>
@@ -106,10 +108,6 @@
                             <p><i class="fa fa-angle-right text-primary me-2"></i>{{ job.job_location }}</p>
                             <p class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Date Line: {{ job.job_deadline }}</p>
                         </div>
-                        <!-- <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
-                            <h4 class="mb-4">Company Detail</h4>
-                            <p class="m-0">Ipsum dolor ipsum accusam stet et et diam dolores, sed rebum sadipscing elitr vero dolores. Lorem dolore elitr justo et no gubergren sadipscing, ipsum et takimata aliquyam et rebum est ipsum lorem diam. Et lorem magna eirmod est et et sanctus et, kasd clita labore.</p>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -137,6 +135,44 @@
     <!-- Template Javascript -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/component.js') }}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const applyButton = document.getElementById('applybtn');
+        applyButton.addEventListener('click', async function (event) {
+          event.preventDefault();
+          const formData = new FormData(document.querySelector('form'));
+          try {
+            const response = await fetch('/resume-parser', {
+              method: 'POST',
+              body: formData,
+            });
+  
+            const result = await response.json();
+  
+            if (result.success === true) {
+              Swal.fire({
+                title: 'Success!',
+                text: 'Applied successful!',
+                icon: 'success',
+                confirmButtonText: 'Okay'
+              })
+            }
+            else {
+              Swal.fire({
+                title: 'Error!',
+                text: 'Registration failed. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'Okay'
+              });
+            }
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        });
+      });
+    </script>
 </body>
 
 </html>
