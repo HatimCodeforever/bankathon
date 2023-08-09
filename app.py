@@ -114,9 +114,8 @@ def registerpost():
       return jsonify(response)
     
     result = collection.insert_one(new_record)
-    
     if result.inserted_id:
-        session['user_id'] = str(existing_user['_id'])
+        session['user_id'] = str(result.inserted_id)
         return jsonify({'success': True})
     else:
         response = {'success': False}
