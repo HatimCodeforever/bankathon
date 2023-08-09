@@ -164,6 +164,10 @@ def save_job():
 def recruiter_job_detail():
     return render_template('recruiter_job_detail.html')
 
+@app.route('/recruit-job-list')
+def recruiter_job_list():
+    return render_template('recruitor-job.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
