@@ -20,8 +20,8 @@ def MongoDB(collection_name):
     return collection
 
 @app.route('/')
-def hello_world():
-    return redirect('/home')
+def landing_page():
+    return render_template('landingPage.html')
 
 @app.route('/home')
 def home():
@@ -44,13 +44,6 @@ def job_detail(job_id):
     collection = MongoDB('jobs')
     job = collection.find_one({'_id': ObjectId(job_id)})
     return render_template('job-detail.html', job=job)
-
-# @app.route('/job-detail', methods=['POST'])
-# def job_detail():
-#     job_id = request.form.get('job_id')
-#     collection = MongoDB('jobs')
-#     job = collection.find_one({'_id': ObjectId(job_id)})
-#     return render_template('job-detail.html',job = job)
 
 @app.route('/job-list')
 def job_list():
