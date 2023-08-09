@@ -1,0 +1,121 @@
+:root {
+    --app-bg-dark: #1f2029;
+    --app-bg-before: linear-gradient(180deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
+    --app-bg-before-2: linear-gradient(0deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
+    --app-bg-light: #2a2b38;
+    --app-logo: #3d7eff;
+    --nav-link: #5e6a81;
+    --nav-link-active: #fff;
+    --list-item-hover: #0c1635;
+    --main-color: #fff;
+    --secondary-color: #5e6a81;
+    --color-light: white;
+    --warning-bg: #ffe5e5;
+    --warning-icon: #ff8181;
+    --applicant-bg: #e3fff1;
+    --applicant-icon: #61e1a1;
+    --close-bg: #fff8e5;
+    --close-icon: #fdbc64;
+    --draft-bg:  #fed8b3;
+    --draft-icon:  #e9780e;
+  }
+.white{
+    color: white;
+}
+.app-container {
+    display: flex;
+    max-width: 1680px;
+    margin: 0 auto;
+    background-color: var(--app-bg-dark);
+    color: var(--main-color);
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.app-left {
+    flex-basis: 240px;
+    padding: 24px 0;
+    background-color: var(--app-bg-dark);
+    transition: all 0.4s ease-in;
+}
+
+.app-right {
+    flex-grow: 1;
+    padding: 40px;
+    background-color: var(--app-bg-light);
+    height: max-content;
+}
+
+/* ... the rest of your CSS ... */
+
+
+  .close-menu {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    color: var(--main-color);
+    cursor: pointer;
+  }
+
+  .nav-list {
+    margin-top: 40px;
+  }
+  
+  .nav-list-item {
+    margin-bottom: 12px;
+    
+    &:not(.active):hover {
+      background-color: var(--applicant-bg);
+    }
+    
+    &.active {
+      .nav-list-link {
+        color: var(--nav-link-active);
+        
+        &:after {
+          height: 100%;
+          opacity: 1;
+        }
+      }
+      
+      svg {
+        stroke: var(--app-logo);
+      }
+    }
+  }
+  
+  .nav-list-link {
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 8px 24px;
+    color: var(--nav-link);
+    display: flex;
+    align-items: center;
+    position: relative;
+    
+    svg {
+      margin-right: 12px;
+    }
+    
+    &:after {
+      content: '';
+      height: 100%;
+      width: 2px;
+      background-color: var(--app-logo);
+      right: 0;
+      top: 0;
+      position: absolute;
+      border-radius: 2px;
+      opacity: 0;
+      height: 0;
+    }
+  }
+  

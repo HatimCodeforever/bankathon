@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartHire - Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <link href="static/css/login.css" rel="stylesheet">
 </head>
 
@@ -24,33 +25,48 @@
                                     <div class="center-wrap">
                                         <div class="section text-center">
                                             <h4 class="mb-4 pb-3">Recruiter</h4>
-                                            <div class="form-group"> <input type="email" name="logemail"
-                                                    class="form-style" placeholder="Your Email" id="logemail"
-                                                    autocomplete="none"> <i class="input-icon fa fa-at"></i> </div>
-                                            <div class="form-group mt-2"> <input type="password" name="logpass"
-                                                    class="form-style" placeholder="Your Password" id="logpass"
-                                                    autocomplete="none"> <i class="input-icon fa fa-lock"></i> </div> <a
-                                                href="/dashboard" class="btn mt-4">Login</a>
+                                            <div class="form-group">
+                                                <form id="recruiter" name="recruiter">
+                                                    <input type="hidden" id="type" name="type" value="recruiter">
+                                                    <input type="email" name="logemail" class="form-style"
+                                                        placeholder="Your Email" id="logemail" autocomplete="none"> <i
+                                                        class="input-icon fa fa-at"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" name="logpass" class="form-style"
+                                                    placeholder="Your Password" id="logpass" autocomplete="none"> <i
+                                                    class="input-icon fa fa-lock"></i>
+                                            </div>
+                                            <a id="reclogin" name="reclogin" class="btn mt-4">Login</a>
+                                            </form>
                                             <p class="mb-0 mt-4 text-center"> <a href="#0" class="link">Forgot your
                                                     password?</a> </p>
-                                            <p class="mb-0 mt-4 text-center">Don't have account ?<a href="/register" class="link">Get Started</a></p>        
+                                            <p class="mb-0 mt-4 text-center">Don't have account ?<a href="/register"
+                                                    class="link">Get Started</a></p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-back">
                                     <div class="center-wrap">
                                         <div class="section text-center">
+                                            <form id="applicant" name="applicant">
                                             <h4 class="mb-4 pb-3">Applicant</h4>
-                                            <div class="form-group mt-2"> <input type="email" name="logemail"
-                                                    class="form-style" placeholder="Your Email" id="logemail"
-                                                    autocomplete="none"> <i class="input-icon fa fa-at"></i> </div>
-                                                    <div class="form-group mt-2"> <input type="password" name="logpass"
-                                                        class="form-style" placeholder="Your Password" id="logpass"
-                                                        autocomplete="none"> <i class="input-icon fa fa-lock"></i> </div> <a
-                                                    href="/home" class="btn mt-4">Login</a>
-                                                <p class="mb-0 mt-4 text-center"> <a href="#0" class="link">Forgot your
-                                                        password?</a> </p>
-                                                <p class="mb-0 mt-4 text-center">Don't have account ?<a href="/register" class="link">Get Started</a></p>   
+                                            <input type="hidden" id="type" name="type" value="applicant">
+                                                <div class="form-group mt-2">
+                                                    <input type="email" name="logemail" id="logemail"
+                                                        class="form-style" placeholder="Your Email" autocomplete="none">
+                                                    <i class="input-icon fa fa-at"></i>
+                                                </div>
+                                                <div class="form-group mt-2">
+                                                    <input type="password" name="logpass" class="form-style"
+                                                        placeholder="Your Password" id="logpass" autocomplete="none">
+                                                    <i class="input-icon fa fa-lock"></i>
+                                                </div> <a id="applogin" name="applogin" class="btn mt-4">Login</a>
+                                            </form>
+                                            <p class="mb-0 mt-4 text-center"> <a href="#0" class="link">Forgot your
+                                                    password?</a> </p>
+                                            <p class="mb-0 mt-4 text-center">Don't have account ?<a href="/register"
+                                                    class="link">Get Started</a></p>
                                         </div>
                                     </div>
                                 </div>
@@ -61,10 +77,80 @@
             </div>
         </div>
     </div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener('click', async function (event) {
+                if (event.target.id === 'reclogin' || event.target.id === 'applogin') {
+                    event.preventDefault();
+                    var formData;
+                    if(event.target.id === 'reclogin'){
+                    const form = document.querySelector('#recruiter');
+                    formData = new FormData(form);
+                    }
+                    else{
+                    const form = document.querySelector('#applicant');
+                    formData = new FormData(form);
+                    }
+                    try {
+                        const response = await fetch('/login-post', {
+                            method: 'POST',
+                            body: formData,
+                        });
+
+                        const result = await response.json();
+
+                        if (result.success === true) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Login successful!',
+                                icon: 'success',
+                                confirmButtonText: 'Okay'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    if(event.target.id  === 'reclogin'){
+                                        window.location.href = '/dashboard';
+
+                                    }else{
+                                        window.location.href = '/home';
+
+                                    }
+                                }
+                            });
+                        }
+                        else if (result.success === 'password_mismatch') {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Password Incorrect',
+                                icon: 'error',
+                                confirmButtonText: 'Okay'
+                            });
+                        }
+
+                        else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Credentials are Incorrect, Email does not Exist!',
+                                icon: 'error',
+                                confirmButtonText: 'Okay'
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                }
+            });
+        });
+    </script>
     <script src="static/node_modules/particles.js/particles.js"></script>
     <script src="static/js/myparticles.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
