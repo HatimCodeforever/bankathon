@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interview Room</title>
+  <link rel="stylesheet" href="static/css/interview.css">
+</head>
+<body>
+  <div class="camera-container">
+    <video id="user-camera" autoplay playsinline></video>
+    <div class="controls">
+      <button id="toggle-camera">Toggle Camera</button>
+      <button id="startButton">Toggle Microphone</button>
+    </div>
+  </div>
+  <p id="outputText"></p>
+  <div class="interview-questions">
+    <h2>Interview Questions</h2>
+    <ul id="questions-list">
+      <!-- Questions will be added here using JavaScript -->
+    </ul>
+  </div>
+  <script src="static/js/interview_script.js"></script>
+  <script>
+    // Check if the browser supports the Web Speech API
+    if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onstart = function() {
+            document.getElementById('outputText').textContent = "Listening...";
+        };
+
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('outputText').textContent = "You said: " + transcript;
+        };
+
+        recognition.onerror = function(event) {
+            document.getElementById('outputText').textContent = "Error occurred in recognition: " + event.error;
+        };
+
+        recognition.onend = function() {
+            document.getElementById('startButton').textContent = "Start Recording";
+        };
+
+        document.getElementById('startButton').addEventListener('click', function() {
+            if (recognition.start) {
+                recognition.start();
+                document.getElementById('startButton').textContent = "Recording...";
+            }
+        });
+    } else {
+        document.getElementById('outputText').textContent = "Web Speech API is not supported by this browser.";
+    }
+</script>
+</body>
+</html>
