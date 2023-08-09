@@ -1,6 +1,9 @@
 from flask import Flask, render_template,request,jsonify,json,redirect,session
 from pymongo import MongoClient
 import os
+# import sys
+# sys.path.append('python')  # Add the directory containing hello.py to sys.path
+# import hello
 from dotenv import load_dotenv
 from bson.binary import Binary
 from bson import ObjectId
@@ -188,6 +191,30 @@ def logout():
 @app.route('/interview')
 def interview():
     return render_template('interview.html')
+
+app = Flask(__name__)
+
+@app.route('/run_script', methods=['POST'])
+def run_script():
+    uploaded_file = request.files['file']
+    if uploaded_file and uploaded_file.filename.endswith('.pdf'):
+        # Save the uploaded file to a temporary location
+        file_path = os.path.join('uploads', uploaded_file.filename)
+        uploaded_file.save(file_path)
+
+        # Process the uploaded PDF file using your function
+        result = hello.process_pdf(file_path)
+
+        # Delete the temporary file after processing
+        os.remove(file_path)
+
+        return jsonify(result)
+    else:
+        return jsonify({'error': 'Invalid file format'})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
