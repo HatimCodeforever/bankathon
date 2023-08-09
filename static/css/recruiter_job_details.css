@@ -19,6 +19,7 @@
     --draft-bg:  #fed8b3;
     --draft-icon:  #e9780e;
   }
+ 
 .white{
     color: white;
 }
@@ -36,14 +37,15 @@
 .app-left {
     flex-basis: 240px;
     padding: 24px 0;
-    background-color: var(--app-bg-dark);
+    background-color: #c32157;
     transition: all 0.4s ease-in;
+    height: 100%;
 }
 
 .app-right {
     flex-grow: 1;
     padding: 40px;
-    background-color: var(--app-bg-light);
+    background-color: white;
     height: max-content;
 }
 

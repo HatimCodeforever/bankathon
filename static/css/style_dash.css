@@ -11,7 +11,7 @@
   --app-bg-before: linear-gradient(180deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
   --app-bg-before-2: linear-gradient(0deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
   --app-bg-light: #151c32;
-  --app-logo: #3d7eff;
+  --app-logo: white;
   --nav-link: #5e6a81;
   --nav-link-active: #fff;
   --list-item-hover: #0c1635;
@@ -49,7 +49,7 @@ body {
 
 .app-left {
   flex-basis: 240px;
-  background-color: var(--app-bg-dark);
+  background-color: #c32157;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -70,11 +70,11 @@ body {
   background-color: var(--app-bg-light);
   padding: 24px;
   /* background: radial-gradient(circle, rgba(5,19,64,1) 1%, rgba(4,15,50,1) 100%); */
-  background-color: #c32157;
+  background-color: white;
 }
 
 .textwork{
-  color: white;
+  color: black;
 }
 .app-right {
   flex-basis: 320px;
@@ -154,7 +154,7 @@ button { cursor: pointer; }
   
   &.active {
     .nav-list-link {
-      color: blue;
+      color: white;
       
       &:after {
         height: 100%;
@@ -201,7 +201,7 @@ button { cursor: pointer; }
   justify-content: center;
   align-items: center;
   border: none;
-  background-color: white;
+  background-color: #c32157;
   color: black;
   border-radius: 4px;
   height: 40px;
@@ -293,8 +293,8 @@ button { cursor: pointer; }
 .chart-container {
   width: 100%;
   border-radius: 10px;
-  background-color: white;
-  color: black;
+  background-color: #c32157;
+  color: white;
   padding: 16px;
   display: flex;
   align-items: center;
@@ -368,7 +368,7 @@ button { cursor: pointer; }
 }
 
 .percentage {
-  fill: black;
+  fill: white;
   font-size: 0.5em;
   text-anchor: middle;
   font-weight: 400;
@@ -409,6 +409,7 @@ button { cursor: pointer; }
   margin-top: 16px;
   margin-bottom: 8px;
   display: flex;
+  color: white;
 }
 
 .bar-progress {
@@ -460,13 +461,13 @@ button { cursor: pointer; }
 }
 
 .progress-type {
-  color: var(--secondary-color);
+  color: white;
   font-size: 12px;
   line-height: 16px;
 }
 
 .progress-amount {
-  color: var(--secondary-color);
+  color: white;
   font-size: 12px;
   line-height: 16px;
   margin-left: auto;
