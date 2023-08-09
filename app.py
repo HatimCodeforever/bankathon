@@ -180,6 +180,10 @@ def recruiter_job_list():
 def notification():
     return render_template('notification.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
