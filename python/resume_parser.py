@@ -86,3 +86,12 @@ def cv_ranker(applicant_skills, required_skills):
     final_rank = (total_score/ actual_total_weight) *10
 
     return final_rank
+
+fr = cv_ranker(applicant_skills, required_skills)
+
+threshold = 8
+
+if (fr> threshold):
+    print('YAYYYY! You are shortlisted')
+else:
+    print('Haha loser')
