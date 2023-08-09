@@ -168,6 +168,10 @@ def recruiter_job_detail():
 def recruiter_job_list():
     return render_template('recruitor-job.html')
 
+@app.route('/notification')
+def notification():
+    return render_template('notification.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
