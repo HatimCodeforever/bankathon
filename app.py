@@ -127,7 +127,7 @@ def registerpost():
 def dashboard():
     return render_template('dash.html')
 
-@app.route('/jobpost')
+@app.route('/job-post')
 def jobpost():
     return render_template('job-post.html')
 
