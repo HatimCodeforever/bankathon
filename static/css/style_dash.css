@@ -293,7 +293,7 @@ button { cursor: pointer; }
 .chart-container {
   width: 100%;
   border-radius: 10px;
-  background-color: #c32157;
+  background-color: #2a2b38;
   color: white;
   padding: 16px;
   display: flex;

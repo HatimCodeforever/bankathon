@@ -24,9 +24,9 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="static/css/recruiter_job_details.css">
-
+    
     <!-- Template Stylesheet -->
+    <link rel="stylesheet" href="static/css/recruiter_job_details.css">
     <link href="static/css/style.css" rel="stylesheet">
 </head>
 
@@ -50,9 +50,16 @@
                     <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
             </button>
-            <a href="/dashboard">
-                <h3 style="color: white; padding: 0px 15% ;">SmartHire</h3>
-            </a>
+            <div class="app-logo mx-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-bar-chart-2">
+                  <line x1="18" y1="20" x2="18" y2="10" />
+                  <line x1="12" y1="20" x2="12" y2="4" />
+                  <line x1="6" y1="20" x2="6" y2="14" />
+                </svg>
+                <span>SmartHire</span>
+              </div>
             <ul class="nav-list">
                 <li class="nav-list-item">
                     <a class="nav-list-link" href="/dashboard">
@@ -79,9 +86,9 @@
             </ul>
         </div>
         <div class="app-right">
+            <a href="/job-post" class="btn" style="position: relative; left: 83%; top: 1%; width: 10vw; height: 5vh; font-size: small;">Post a Job</a>
             <div class="container-xxl py-5">
                 <div class="container">
-                    <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
                     <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
                         <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
                             <li class="nav-item">
@@ -122,7 +129,8 @@
                                         <div
                                             class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                             <div class="d-flex mb-3">
-                                                <a class="btn btn-primary" href="">View Applicants</a>
+                                  
+                                                <a class="btn" href="">View Applicants</a>
                                             </div>
                                             <small class="text-truncate"><i
                                                     class="far fa-calendar-alt text-primary me-2"></i>Date Line: {{ job.job_deadline }}</small>

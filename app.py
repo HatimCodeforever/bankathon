@@ -176,6 +176,10 @@ def recruiter_job_list():
     conjobs = collection.find({'job_mode': 'Contract'})
     return render_template('recruitor-job.html', partjobs = partjobs,fulljobs = fulljobs,conjobs = conjobs)
 
+@app.route('/notification')
+def notification():
+    return render_template('notification.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

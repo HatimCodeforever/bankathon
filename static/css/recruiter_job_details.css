@@ -1,5 +1,5 @@
 :root {
-    --app-bg-dark: #1f2029;
+    --app-bg-dark: white;
     --app-bg-before: linear-gradient(180deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
     --app-bg-before-2: linear-gradient(0deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
     --app-bg-light: #2a2b38;
@@ -30,23 +30,31 @@
     background-color: var(--app-bg-dark);
     color: var(--main-color);
     height: 100vh;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
 }
 
 .app-left {
-    flex-basis: 240px;
-    padding: 24px 0;
-    background-color: #c32157;
-    transition: all 0.4s ease-in;
-    height: 100%;
+  flex-basis: 240px;
+  padding: 24px 0;
+  background-color: #c32157;
+  transition: all 0.4s ease-in;
+  height: 100%;
+  width: 16vw;
+  position: fixed; /* Fix the component */
+  left: 0; /* Position from the left edge */
+  top: 0; /* Position from the top edge */
+  bottom: 0; /* Take the full height */
 }
 
 .app-right {
-    flex-grow: 1;
-    padding: 40px;
-    background-color: white;
-    height: max-content;
+  flex-grow: 1;
+  padding: 40px;
+  background-color: white;
+  height: 100%; /* Use 100% height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  margin-left: 240px; /* Account for the width of app-left */
+  box-sizing: border-box; /* Include padding in the width */
 }
 
 /* ... the rest of your CSS ... */
@@ -97,7 +105,7 @@
     font-weight: 300;
     font-size: 14px;
     line-height: 24px;
-    padding: 8px 24px;
+    padding: 10px 0px;
     color: var(--nav-link);
     display: flex;
     align-items: center;
@@ -120,4 +128,53 @@
       height: 0;
     }
   }
-  
+  .btn {
+    border-radius: 4px;
+    font-weight: 200;
+    text-transform: uppercase;
+    transition: all 200ms linear;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -ms-flex-pack: center;
+    text-align: center;
+    border: none;
+    background-color: #c32157;
+    color: #fff;
+    box-shadow: 0 8px 24px 0 rgba(18, 248, 173, .2);
+    width: fit-content;
+    font-size: small;
+}
+
+.btn:active,
+.btn:focus {
+    background-color: #fff;
+    color: #EA2C62;
+    box-shadow: 0 8px 24px 0 rgba(255, 255, 255, .2)
+}
+
+.btn:hover {
+    background-color: #fff;
+    color: #EA2C62;
+    box-shadow: 0 8px 24px 0 rgba(255, 255, 255, .2)
+}
+
+li{
+  list-style: none;
+}
+
+ul{
+  padding-left: 1.5rem;
+}
+
+.job-item {
+  border: 1px solid transparent;
+  border-radius: 2px;
+  box-shadow: 0 0 45px rgba(0, 0, 0, .08);
+  transition: .5s;
+}
+
+.job-item:hover {
+  border-color: rgba(0, 0, 0, .08);
+  box-shadow: none;
+}
