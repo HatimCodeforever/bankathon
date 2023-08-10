@@ -11,8 +11,8 @@ def face_verify():
     file.close()
     print("Encoding Loaded")
 
-    num_frame=0
-    matchList=[]
+    # num_frame=0
+    # matchList=[]
 
     while num_frame<10:
         _,frame=cap.read()
