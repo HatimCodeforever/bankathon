@@ -67,8 +67,6 @@
         }).then(response => response.json())
       .then(data => {
         interviewQuestions = data;
-
-        // Now you can work with the javascriptList array
         console.log(javascriptList);
       })
       .catch(error => console.error('Error fetching data:', error));
