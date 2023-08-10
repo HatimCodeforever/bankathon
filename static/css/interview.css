@@ -3,6 +3,34 @@ body {
     margin: 0;
     padding: 0;
   }
+
+  .bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: auto; 
+    z-index: 100; 
+}
+
+.button{
+  border-radius: 4px;
+  height: 48px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 200ms linear;
+  padding: 0 30px;
+  letter-spacing: 1px;
+  align-items: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  text-align: center;
+  border: none;
+  background-color: #c32157;
+  color: #fff;
+  box-shadow: 0 8px 24px 0 rgba(18, 248, 173, .2)
+}
   
   .camera-container {
     display: flex;
@@ -11,7 +39,7 @@ body {
     margin-top: 20px;
   }
   
-  #user-camera {
+  .user-camera {
     width: 100%;
     max-width: 600px;
     border: 1px solid #ccc;
@@ -24,8 +52,10 @@ body {
   .interview-questions {
     margin-top: 30px;
     padding: 20px;
+    height: 600px;
     background-color: #f4f4f4;
     border: 1px solid #ddd;
+    font-size: 20px;
     border-radius: 5px;
   }
   

@@ -26,7 +26,7 @@ def send_mail(rec,t,name,job):
 
 Best regards,
 
-Vedant
+CodeOmega
 HR Team
         """
     elif t==2:
@@ -84,9 +84,9 @@ Axis Bank
         server.send_message(em)
         print("Mail Sent")
 
-rec="kamblivedant50@gmail.com,haadirakhangi@gmail.com, hatmsb11@gmail.com, mehekjain28@gmail.com"
-Name="Random Dude"
-job="Random Job"
+# rec="kamblivedant50@gmail.com,haadirakhangi@gmail.com, hatmsb11@gmail.com, mehekjain28@gmail.com"
+# Name="Random Dude"
+# job="Random Job"
 
-for n in range (1,4):
-    send_mail(rec,n,Name,job)
+# for n in range (1,4):
+#     send_mail(rec,n,Name,job)
