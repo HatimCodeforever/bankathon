@@ -13,48 +13,55 @@ async function startCamera() {
 }
 
 function toggleCamera() {
-    const video = document.getElementById('user-camera');
-    const frameDataInput = document.getElementById('frame-data');
-    let capturing = false;
-    if (!capturing) {
-      console.log("hello i am here")
-      capturing = true;
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      const captureFrame = () => {
-        if (capturing) {
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const imageData = canvas.toDataURL('image/jpeg');
-          console.log("imagedata:- ",imageData)
-          frameDataInput.value = imageData;
-          const response = fetch('/face_rec', {
+  const video = document.getElementById('user-camera');
+  const frameDataInput = document.getElementById('frame-data');
+  let capturing = false;
+  if (!capturing) {
+    capturing = true;
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    const captureFrame = () => {
+      if (capturing) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/jpeg');
+        frameDataInput.value = imageData;
+        fetch('/face_rec', {
             method: 'POST',
             body: new FormData(document.getElementById('camera-form')),
+          }).then(response => response.json()) // Parse response as JSON
+          .then(result => {
+              if (result.success === true) {
+                Swal.fire({
+                  title: 'Success!',
+                  text: 'You are verified!!',
+                  icon: 'success',
+                  confirmButtonText: 'Okay'
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    if (userCamera.srcObject) {
+                      userCamera.srcObject.getTracks().forEach(track => track.stop());
+                      userCamera.srcObject = null;
+                    }
+                  }
+                });
+              } else {
+                Swal.fire({
+                  title: 'Error!',
+                  text: 'Face does not Match!1, try again',
+                  icon: 'error',
+                  confirmButtonText: 'Okay'
+                });
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
           });
-          // const result = response.json();
-          // if (result.success === true) {
-          //   Swal.fire({
-          //     title: 'Success!',
-          //     text: 'You are verified!!',
-          //     icon: 'success',
-          //     confirmButtonText: 'Okay'
-          //   })
-          // }
-          // else {
-          //   Swal.fire({
-          //     title: 'Error!',
-          //     text: 'Face does not Match!1, try again',
-          //     icon: 'error',
-          //     confirmButtonText: 'Okay'
-          //   });
-          // }
-          // requestAnimationFrame(captureFrame);
-        }
-      };
-      captureFrame();
-    }
+      }
+    };
+    captureFrame();
+  }
 }
 
 function toggleMicrophone() {
@@ -80,7 +87,6 @@ startCamera();
 toggleCameraButton.addEventListener("click", toggleCamera);
 // toggleMicButton.addEventListener("click", toggleMicrophone);
 
-// Display interview questions on page load
 displayQuestions();
 
 // navigator.mediaDevices.getUserMedia({ video: true })

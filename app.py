@@ -218,7 +218,21 @@ def face_rec():
         save_path = os.path.join('uploads/', 'captured_frame.jpg')
         with open(save_path, 'wb') as f:
             f.write(image_data)
-    response = {'success': True}
+    file=open("uploads/User.p","rb")
+    enc=pickle.load(file)
+    file.close()
+    img=cv2.imread("uploads/captured_frame.jpg")
+    frame_rgb=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+    face_loc=face_recognition.face_locations(frame_rgb)
+    enc_frame=face_recognition.face_encodings(frame_rgb,face_loc)
+    match=face_recognition.compare_faces(enc,enc_frame)
+    dist=face_recognition.face_distance(enc,enc_frame)
+    dist=(1-dist)*100
+    print("Percentage:- ",dist)
+    if match:
+        response = {'success': True}
+    else:
+        response = {'success': False}
     return jsonify(response)
 
 @app.route('/resume-parser', methods=['POST'])
