@@ -48,37 +48,67 @@ class Convert2Text:
         return text
 
 # Chatgpt model to extract skills
-openai.api_key = os.getenv("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")
+# openai.api_key = os.getenv('OPEN_AI_API_KEY')
 
-def skills(resume_text):
-    response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": "As a member of the HR team, your task is to extract a python list of skills from the resumes of candidates applying for a job. Your goal is to provide a concise and focused list of skills (techinical and non-technical skills) without any elaboration or irrelevant information. Your prompt should ensure that the list of skills extracted accurately reflects the candidate's relevant expertise and qualifications. Avoid including any additional details or explanations in the list. Your prompt should guide the AI model to provide a straightforward and precise python list of skills from the candidate's resume. All the extracted skills should strictly be in lower case by default. Template - ```list of skills``` " },
-        {"role": "user", "content": f"{resume_text}"}
-    ]
-    )
-    return response
+# def skills(resume_text):
+#     response = openai.ChatCompletion.create(
+#     model="gpt-3.5-turbo",
+#     messages=[
+#         {"role": "system", "content": "As a member of the HR team, your task is to extract a python list of skills from the resumes of candidates applying for a job. Your goal is to provide a concise and focused list of skills (techinical and non-technical skills) without any elaboration or irrelevant information. Your prompt should ensure that the list of skills extracted accurately reflects the candidate's relevant expertise and qualifications. Avoid including any additional details or explanations in the list. Your prompt should guide the AI model to provide a straightforward and precise python list of skills from the candidate's resume. All the extracted skills should strictly be in lower case by default. NOTE - PLEASE MAKE SURE EACH ELEMENT IN THE LIST is a STRING LITERAL. Template - ```AI: [Python list of skills]``` " },
+#         {"role": "user", "content": f"{resume_text}"}
+#     ]
+#     )
+#     return response
 
 # # Ranking CV
 
 def cv_ranker(applicant_skills, required_skills):
+    print('Applicant skills',applicant_skills)
+    print('Required skills',required_skills)
     skillset = []
     extra_skills = []
     total_score = 0
     actual_total_weight = 0
+    required_skills_lower = {key.lower(): value for key, value in required_skills.items()}
     for key, value in required_skills.items():
         actual_total_weight += required_skills[key]
+    print('total weight', actual_total_weight)
+
     for skill in applicant_skills:
-        if skill.lower() in required_skills:
+        if skill.lower() in required_skills_lower:
             skillset.append(skill)
-            total_score += required_skills[skill]
+            total_score += required_skills_lower[skill.lower()]
         else:
             extra_skills.append(skill)
+    print('Total',total_score)
     final_rank = (total_score/ actual_total_weight) *10
     return final_rank
 
+
+def cv_ranker2(resume_text, required_skills):
+  print('Required skills:',required_skills)
+  skillset=[]
+  my_weight = 0
+  actual_total_weight=0
+  required_skills_list = [key.lower() for key, value in required_skills.items()]
+  required_skills_lower = {key.lower():value for key, value in required_skills.items()}
+  for key, value in required_skills.items():
+        actual_total_weight += required_skills[key]
+  print('Total Weight:', actual_total_weight)
+
+  for skill in required_skills_list:
+    if skill in resume_text.lower():
+      skillset.append(skill)
+      my_weight += required_skills_lower[skill]
+
+  print('Applicant skills:',skillset)
+  final_rank = (my_weight/ actual_total_weight) *10
+
+  return final_rank
+
+
 # threshold = 8
+# >>>>>>> c4c762c05964ac8c0454b76530a1abb8059a5aa7
 
 # if (fr> threshold):
 #     print('YAYYYY! You are shortlisted')
