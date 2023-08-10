@@ -1,0 +1,7 @@
+flask
+face_recognition
+openai
+cv2
+dotenv
+pymongo
+pickle
