@@ -4,6 +4,7 @@ import os
 import sys
 sys.path.append('python')
 import resume_parser
+import EncodeGen
 from dotenv import load_dotenv
 from bson.binary import Binary
 from bson import ObjectId
@@ -192,6 +193,34 @@ def logout():
 
 @app.route('/interview')
 def interview():
+    collection = MongoDB('applicant')
+    image_data = collection.find_one({"_id": ObjectId(session['user_id'])})
+    if image_data:
+        image_binary = image_data["profile_image"]
+        saved_image_path = "uploads/image.jpg"
+        with open(saved_image_path, "wb") as f:
+            f.write(image_binary)
+        img= EncodeGen.cv2.imread("uploads/image.jpg")
+        enc=EncodeGen.Encode(img)
+        EncodeGen.SaveEnc(enc)
+    return render_template('interview.html')
+
+@app.route('/encode_gen')
+def encode():
+    collection = MongoDB('applicant')
+    image_data = collection.find_one({"_id": session['user_id']})
+    if image_data:
+        image_binary = image_data["image"]
+        saved_image_path = "/uploads/image.jpg" 
+        # image_binary.save(file_path)
+        with open(saved_image_path, "wb") as f:
+            f.write(image_binary)
+
+    # img= EncodeGen.cv2.imread("/uploads/image.jpg")
+    # enc=EncodeGen.Encode(img)
+    # EncodeGen.SaveEnc(enc)
+    # EncodeGen.cv2.waitKey(0)
+    # EncodeGen.cv2.destroyAllWindows()
     return render_template('interview.html')
 
 @app.route('/resume-parser', methods=['POST'])

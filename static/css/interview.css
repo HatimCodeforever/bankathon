@@ -5,29 +5,35 @@ body {
   }
   
   .camera-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+    width: 100%;
+    height: 70vh; /* Adjust the height as needed */
+    position: relative;
+    overflow: hidden;
   }
   
   #user-camera {
     width: 100%;
-    max-width: 600px;
-    border: 1px solid #ccc;
+    height: 100%;
   }
   
-  .controls {
+  
+  .controls,
+.interview-questions {
+  display: none;
+}
+
+
+  /* .controls {
     margin-top: 10px;
-  }
-  
+  } */
+/*   
   .interview-questions {
     margin-top: 30px;
     padding: 20px;
     background-color: #f4f4f4;
     border: 1px solid #ddd;
     border-radius: 5px;
-  }
+  } */
   
   h2 {
     margin-top: 0;

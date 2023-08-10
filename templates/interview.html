@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interview Room</title>
   <link rel="stylesheet" href="static/css/interview.css">
+  <link href="static/img/favicon.ico" rel="icon">
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Icon Font Stylesheet -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Libraries Stylesheet -->
+  <link href="static/lib/animate/animate.min.css" rel="stylesheet">
+  <link href="static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+  <!-- Customized Bootstrap Stylesheet -->
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Template Stylesheet -->
+  <link href="static/css/style.css" rel="stylesheet">
 </head>
+
 <body>
+
+  <app-navbar></app-navbar>
   <div class="camera-container">
     <video id="user-camera" autoplay playsinline></video>
     <div class="controls">
@@ -21,41 +46,83 @@
       <!-- Questions will be added here using JavaScript -->
     </ul>
   </div>
+
+  <app-footer></app-footer>
   <script src="static/js/interview_script.js"></script>
   <script>
     // Check if the browser supports the Web Speech API
     if ('webkitSpeechRecognition' in window) {
-        const recognition = new webkitSpeechRecognition();
+      const recognition = new webkitSpeechRecognition();
 
-        recognition.continuous = false;
-        recognition.interimResults = false;
+      recognition.continuous = false;
+      recognition.interimResults = false;
 
-        recognition.onstart = function() {
-            document.getElementById('outputText').textContent = "Listening...";
-        };
+      recognition.onstart = function () {
+        document.getElementById('outputText').textContent = "Listening...";
+      };
 
-        recognition.onresult = function(event) {
-            const transcript = event.results[0][0].transcript;
-            document.getElementById('outputText').textContent = "You said: " + transcript;
-        };
+      recognition.onresult = function (event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('outputText').textContent = "You said: " + transcript;
+      };
 
-        recognition.onerror = function(event) {
-            document.getElementById('outputText').textContent = "Error occurred in recognition: " + event.error;
-        };
+      recognition.onerror = function (event) {
+        document.getElementById('outputText').textContent = "Error occurred in recognition: " + event.error;
+      };
 
-        recognition.onend = function() {
-            document.getElementById('startButton').textContent = "Start Recording";
-        };
+      recognition.onend = function () {
+        document.getElementById('startButton').textContent = "Start Recording";
+      };
 
-        document.getElementById('startButton').addEventListener('click', function() {
-            if (recognition.start) {
-                recognition.start();
-                document.getElementById('startButton').textContent = "Recording...";
-            }
-        });
+      document.getElementById('startButton').addEventListener('click', function () {
+        if (recognition.start) {
+          recognition.start();
+          document.getElementById('startButton').textContent = "Recording...";
+        }
+      });
     } else {
-        document.getElementById('outputText').textContent = "Web Speech API is not supported by this browser.";
+      document.getElementById('outputText').textContent = "Web Speech API is not supported by this browser.";
     }
-</script>
+
+    // const userCamera = document.getElementById('user-camera');
+    // const toggleCameraButton = document.getElementById('toggle-camera');
+
+    // toggleCameraButton.addEventListener('click', function () {
+    // const videoStream = userCamera.captureStream();
+    // const videoTrack = videoStream.getVideoTracks()[0];
+
+    // Send videoTrack to Flask using AJAX or Fetch API
+    // Replace this with your actual server communication code
+    // });
+
+    // After receiving a positive response from Flask
+    // const cameraContainer = document.querySelector('.camera-container');
+    // cameraContainer.style.position = 'absolute';
+    // cameraContainer.style.bottom = '0';
+    // cameraContainer.style.right = '0';
+
+
+    // const startButton = document.getElementById('startButton');
+    // const controls = document.querySelector('.controls');
+    // const interviewQuestions = document.querySelector('.interview-questions');
+
+    // startButton.addEventListener('click', function () {
+    //   controls.style.display = 'block';
+    //   interviewQuestions.style.display = 'block';
+    //   startButton.style.display = 'none';
+    // });
+
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="static/lib/wow/wow.min.js"></script>
+  <script src="static/lib/easing/easing.min.js"></script>
+  <script src="static/lib/waypoints/waypoints.min.js"></script>
+  <script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="static/js/main.js"></script>
+
+  <script src="static/js/component.js"></script>
 </body>
+
 </html>
