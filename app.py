@@ -4,12 +4,16 @@ import os
 import sys
 sys.path.append('python')
 import resume_parser
+import EncodeGen
+import cv2
+import pickle
+import mail
+import face_recognition
+import base64
 from dotenv import load_dotenv
 from bson.binary import Binary
 from bson import ObjectId
 from datetime import datetime
-import re
-import ast
 
 
 load_dotenv()
@@ -169,9 +173,11 @@ def save_job():
         response = {'success': False}
     return jsonify(response)
 
-@app.route('/recruit-job-detail')
-def recruiter_job_detail():
-    return render_template('recruiter_job_detail.html')
+@app.route('/recruit-job-detail/<job_id>')
+def recruiter_job_detail(job_id):
+    collection = MongoDB('jobs')
+    job = collection.find_one({'_id': ObjectId(job_id)})
+    return render_template('recruiter_job_detail.html', job=job)
 
 @app.route('/recruit-job-list')
 def recruiter_job_list():
@@ -183,7 +189,17 @@ def recruiter_job_list():
 
 @app.route('/notification')
 def notification():
-    return render_template('notification.html')
+    collection = MongoDB('shorlisted')
+    collection_jobs = MongoDB('jobs')
+    notif = collection.find({'user_id': session['user_id']})
+    job_info_list = []
+    for shortlisted_job in notif:
+        job_id = shortlisted_job.get('job_id')
+        print(job_id)
+        job_info = collection_jobs.find_one({'_id': ObjectId(job_id)})
+        if job_info:
+            job_info_list.append(job_info)
+    return render_template('notification.html', job_info_list=job_info_list)
 
 @app.route('/logout')
 def logout():
@@ -192,10 +208,47 @@ def logout():
 
 @app.route('/interview')
 def interview():
+    collection = MongoDB('applicant')
+    image_data = collection.find_one({"_id": ObjectId(session['user_id'])})
+    if image_data:
+        image_binary = image_data["profile_image"]
+        saved_image_path = "uploads/image.jpg"
+        with open(saved_image_path, "wb") as f:
+            f.write(image_binary)
+        img= EncodeGen.cv2.imread("uploads/image.jpg")
+        enc=EncodeGen.Encode(img)
+        EncodeGen.SaveEnc(enc)
     return render_template('interview.html')
+
+@app.route('/face_rec',methods=['POST'])
+def face_rec():
+    frame_data = request.form.get('frame-data')
+    if frame_data:
+        image_data = base64.b64decode(frame_data.split(',')[1])
+        save_path = os.path.join('uploads/', 'captured_frame.jpg')
+        with open(save_path, 'wb') as f:
+            f.write(image_data)
+    file=open("uploads/User.p","rb")
+    enc=pickle.load(file)
+    file.close()
+    img=cv2.imread("uploads/captured_frame.jpg")
+    frame_rgb=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+    face_loc=face_recognition.face_locations(frame_rgb)
+    enc_frame=face_recognition.face_encodings(frame_rgb,face_loc)
+    match=face_recognition.compare_faces(enc,enc_frame)
+    dist=face_recognition.face_distance(enc,enc_frame)
+    dist=(1-dist)*100
+    print("Percentage:- ",dist)
+    if match:
+        response = {'success': True}
+    else:
+        response = {'success': False}
+    return jsonify(response)
 
 @app.route('/resume-parser', methods=['POST'])
 def run_script():
+    collection = MongoDB('applicant')
+    user = collection.find_one({'_id': ObjectId(session['user_id'])})
     uploaded_file = request.files['file']
     job_id = request.form.get('job')
     req_skills ={}
@@ -206,26 +259,30 @@ def run_script():
         skill_name = skill.get('name')
         skill_weight = skill.get('weight')
         req_skills[skill_name] = int(skill_weight)
-    if uploaded_file and uploaded_file.filename.endswith('.pdf'):
+    if uploaded_file and uploaded_file.filename.endswith('.pdf') or uploaded_file.filename.endswith('.docx'):
         file_path = os.path.join('uploads', uploaded_file.filename)
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         uploaded_file.save(file_path)
-
         converter = resume_parser.Convert2Text(file_path)
         resume_text = converter.convert_to_text()
-        # result = resume_parser.skills(resume_text)
-
-        # applicant_skills = result.choices[0].message
-        # print(applicant_skills)
-
-        # response = applicant_skills['content']
-        # regex = re.sub('AI:\s',"", response)
-
-        # final_applicant_skills = ast.literal_eval(regex)
-
         rank = resume_parser.cv_ranker2(resume_text,req_skills)
         print("Your Rank",rank)
         os.remove(file_path)
+        threshold = 6
+        if (rank> threshold):
+            mail.send_mail(user.get('email'),1,user.get('first_name'),job.get('job_title'))
+            new_record = {
+            'user_id' : session['user_id'],
+            'job_id'  : job_id,
+            }
+            collection = MongoDB('shorlisted')
+            result = collection.insert_one(new_record)
+            if result.inserted_id:
+                session['user_id'] = str(result.inserted_id)
+                return jsonify({'success': True})
+            else:
+                print('Haha loser')
+
         response = {'success': True}
         return jsonify(response)
     else:
