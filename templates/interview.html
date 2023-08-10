@@ -33,9 +33,12 @@
 
   <app-navbar></app-navbar>
   <div class="camera-container">
-    <video id="user-camera" autoplay playsinline></video>
+    <form id="camera-form">
+      <video id="user-camera" name="user-camera" autoplay playsinline></video>
+      <input type="hidden" id="frame-data" name="frame-data">
+    </form>
     <div class="controls">
-      <button id="toggle-camera">Toggle Camera</button>
+      <button id="toggle-camera" name="toggle-camera">Toggle Camera</button>
       <button id="startButton">Toggle Microphone</button>
     </div>
   </div>
@@ -48,6 +51,8 @@
   </div>
 
   <app-footer></app-footer>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
   <script src="static/js/interview_script.js"></script>
   <script>
     // Check if the browser supports the Web Speech API
@@ -83,35 +88,6 @@
     } else {
       document.getElementById('outputText').textContent = "Web Speech API is not supported by this browser.";
     }
-
-    // const userCamera = document.getElementById('user-camera');
-    // const toggleCameraButton = document.getElementById('toggle-camera');
-
-    // toggleCameraButton.addEventListener('click', function () {
-    // const videoStream = userCamera.captureStream();
-    // const videoTrack = videoStream.getVideoTracks()[0];
-
-    // Send videoTrack to Flask using AJAX or Fetch API
-    // Replace this with your actual server communication code
-    // });
-
-    // After receiving a positive response from Flask
-    // const cameraContainer = document.querySelector('.camera-container');
-    // cameraContainer.style.position = 'absolute';
-    // cameraContainer.style.bottom = '0';
-    // cameraContainer.style.right = '0';
-
-
-    // const startButton = document.getElementById('startButton');
-    // const controls = document.querySelector('.controls');
-    // const interviewQuestions = document.querySelector('.interview-questions');
-
-    // startButton.addEventListener('click', function () {
-    //   controls.style.display = 'block';
-    //   interviewQuestions.style.display = 'block';
-    //   startButton.style.display = 'none';
-    // });
-
   </script>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

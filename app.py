@@ -5,6 +5,10 @@ import sys
 sys.path.append('python')
 import resume_parser
 import EncodeGen
+import cv2
+import pickle
+import face_recognition
+import base64
 from dotenv import load_dotenv
 from bson.binary import Binary
 from bson import ObjectId
@@ -205,23 +209,17 @@ def interview():
         EncodeGen.SaveEnc(enc)
     return render_template('interview.html')
 
-@app.route('/encode_gen')
-def encode():
-    collection = MongoDB('applicant')
-    image_data = collection.find_one({"_id": session['user_id']})
-    if image_data:
-        image_binary = image_data["image"]
-        saved_image_path = "/uploads/image.jpg" 
-        # image_binary.save(file_path)
-        with open(saved_image_path, "wb") as f:
-            f.write(image_binary)
-
-    # img= EncodeGen.cv2.imread("/uploads/image.jpg")
-    # enc=EncodeGen.Encode(img)
-    # EncodeGen.SaveEnc(enc)
-    # EncodeGen.cv2.waitKey(0)
-    # EncodeGen.cv2.destroyAllWindows()
-    return render_template('interview.html')
+@app.route('/face_rec',methods=['POST'])
+def face_rec():
+    print("i am here")
+    frame_data = request.form.get('frame-data')
+    if frame_data:
+        image_data = base64.b64decode(frame_data.split(',')[1])
+        save_path = os.path.join('uploads/', 'captured_frame.jpg')
+        with open(save_path, 'wb') as f:
+            f.write(image_data)
+    response = {'success': True}
+    return jsonify(response)
 
 @app.route('/resume-parser', methods=['POST'])
 def run_script():
