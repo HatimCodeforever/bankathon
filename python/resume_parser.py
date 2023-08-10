@@ -108,7 +108,6 @@ def cv_ranker2(resume_text, required_skills):
 
 
 # threshold = 8
-# >>>>>>> c4c762c05964ac8c0454b76530a1abb8059a5aa7
 
 # if (fr> threshold):
 #     print('YAYYYY! You are shortlisted')
