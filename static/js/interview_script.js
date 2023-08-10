@@ -63,10 +63,6 @@ function toggleCamera() {
                 confirmButtonText: 'Okay'
               }).then((result) => {
                 if (result.isConfirmed) {
-                  if (userCamera.srcObject) {
-                    userCamera.srcObject.getTracks().forEach(track => track.stop());
-                    userCamera.srcObject = null;
-                  }
                   userCamera.classList.toggle('bottom-right');
                   userCamera.classList.remove('user-camera');
                   toggleCameraButton.style.display = 'none';
@@ -104,7 +100,7 @@ function toggleMicrophone() {
     toggleMicButton.textContent = "Click to save the answer";
     recognition = new webkitSpeechRecognition();
     recognition.continuous = true;
-    recognition.interimResults = true;
+    recognition.interimResults = false;
 
     recognition.onstart = () => {
       console.log("Listening...");
@@ -131,11 +127,6 @@ function toggleMicrophone() {
   }
 }
 
-const interviewQuestions = [
-  "What is Promises in Javascript?",
-  "What is your experience with HTML, CSS, and JavaScript?",
-  "Explain the concept of closures in JavaScript?",
-];
 
 let currentQuestionIndex = 0;
 

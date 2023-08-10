@@ -8,12 +8,14 @@ import EncodeGen
 import cv2
 import pickle
 import mail
+import openai
 import face_recognition
 import base64
 from dotenv import load_dotenv
 from bson.binary import Binary
 from bson import ObjectId
 from datetime import datetime
+import re
 
 
 load_dotenv()
@@ -142,9 +144,40 @@ def jobpost():
 
 @app.route('/post-jobpost', methods=['POST'])
 def save_job():
+    dict2 = {}
     stored_object_id = ObjectId(session['user_id'])
     current_date = datetime.now().date()
     formatted_date = current_date.strftime('%Y-%m-%d')
+    job_skills= []
+    skills = request.form.getlist('skills[]')
+    for skill in skills:
+        skill_name, skill_weight = skill.split(',')
+        job_skills.append({'name': skill_name, 'weight': skill_weight})
+        dict2[skill_name]=int(skill_weight)
+    openai.api_key = os.getenv('OPENAI_API_KEY')
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages= [
+            {
+                "role": "system",
+                "content": '''You are an interviewer and you are supposed to ask questions to a candidate who has applied for the job. Your task is to ask 5 questions on the topics specified to you by the HR team. The HR team will provide you a dictionary of topics and their corresponding difficulties. The maximum weightage that can be assigned to a topic is 5. Refrain from adding any irrelevant information or details besides the questions.
+                Template - 
+                "{Questions on all the topics in a list}'''
+            },
+            {
+                "role": "user",
+                "content": f'''{dict2}'''
+            }
+        ],
+        max_tokens=450,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+    rep=response.choices[0].message.content
+    question_regex = r"\d+\.\s(.*\?)"
+    questions = re.findall(question_regex, rep)
+    
+
     job_data = {
         'rec_id': stored_object_id,
         'job_title': request.form.get('jobTitle'),
@@ -156,13 +189,11 @@ def save_job():
         'job_deadline': request.form.get('deadDate'),
         'job_location': request.form.get('loc'),
         'cur_date': formatted_date,
-        'required_skills': [],
+        'required_skills': job_skills,
+        'job_questions' : questions,
     }
 
-    skills = request.form.getlist('skills[]')
-    for skill in skills:
-        skill_name, skill_weight = skill.split(',')
-        job_data['required_skills'].append({'name': skill_name, 'weight': skill_weight})
+    
     
     collection = MongoDB('jobs')
     result = collection.insert_one(job_data)
@@ -189,9 +220,10 @@ def recruiter_job_list():
 
 @app.route('/notification')
 def notification():
-    collection = MongoDB('shorlisted')
+    collection = MongoDB('shortlisted')
     collection_jobs = MongoDB('jobs')
     notif = collection.find({'user_id': session['user_id']})
+    print(session['user_id'])
     job_info_list = []
     for shortlisted_job in notif:
         job_id = shortlisted_job.get('job_id')
@@ -206,8 +238,19 @@ def logout():
     session.clear()
     return redirect('/')
 
-@app.route('/interview')
-def interview():
+@app.route('/get_data')
+def getdata():
+    j_collection = MongoDB('jobs')
+    job = j_collection.find_one({'_id': ObjectId('64d506d303defea8aabc74c3')})
+    job_q = job.get('job_questions')
+    return jsonify(job_q)
+
+@app.route('/interview/<job_id>')
+def interview(job_id):
+    j_collection = MongoDB('jobs')
+    job = j_collection.find_one({'_id': ObjectId(job_id)})
+    job_q = job.get('job_questions')
+    print(type(job_q))
     collection = MongoDB('applicant')
     image_data = collection.find_one({"_id": ObjectId(session['user_id'])})
     if image_data:
@@ -218,7 +261,7 @@ def interview():
         img= EncodeGen.cv2.imread("uploads/image.jpg")
         enc=EncodeGen.Encode(img)
         EncodeGen.SaveEnc(enc)
-    return render_template('interview.html')
+    return render_template('interview.html',job_q=job_q)
 
 @app.route('/face_rec',methods=['POST'])
 def face_rec():
@@ -275,13 +318,12 @@ def run_script():
             'user_id' : session['user_id'],
             'job_id'  : job_id,
             }
-            collection = MongoDB('shorlisted')
+            collection = MongoDB('shortlisted')
             result = collection.insert_one(new_record)
             if result.inserted_id:
-                session['user_id'] = str(result.inserted_id)
                 return jsonify({'success': True})
             else:
-                print('Haha loser')
+                mail.send_mail(user.get('email'),2,user.get('first_name'),job.get('job_title'))
 
         response = {'success': True}
         return jsonify(response)
