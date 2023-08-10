@@ -11,53 +11,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 #Converting resume from pdf or docx to text
-<<<<<<< HEAD
-# class Convert2Text:
-#     def __init__(self, file_path):
-#         self.file_path = file_path
-
-
-
-def check_file_extension(self):
-    _, file_extension = os.path.splitext(self.file_path)
-    return file_extension.lower()
-
-def convert_to_text(self):
-    file_extension = self.check_file_extension()
-    if file_extension == '.pdf':
-        return self.pdftotext(self.file_path)
-    elif file_extension == '.docx':
-        return self.doctotext(self.file_path)
-    else:
-        raise ValueError(f"Unsupported file format: {file_extension}. Only .pdf and .docx files are supported.")
-
-def doctotext(self, m):
-    temp = docx2txt.process(m)
-    resume_text = [line.replace('\t', ' ') for line in temp.split('\n') if line]
-    text = ' '.join(resume_text)
-    return text
-
-def pdftotext(self, m):
-    pdfFileObj = open(m, 'rb')
-    pdfFileReader = PdfReader(pdfFileObj)
-    num_pages = len(pdfFileReader.pages)
-    currentPageNumber = 0
-    text = ''
-    while currentPageNumber < num_pages:
-        pdfPage = pdfFileReader.pages[currentPageNumber]
-        text = text + pdfPage.extract_text()
-        currentPageNumber += 1
-    pdfFileObj.close()
-    return text
-
-
-
-resume = 'Hack_Resume_25_7_23.pdf'
-
-converter = Convert2Text(resume)
-
-resume_text = converter.convert_to_text()
-=======
 class Convert2Text:
     def __init__(self, file_path):
         self.file_path = file_path
@@ -93,7 +46,6 @@ class Convert2Text:
             currentPageNumber += 1
         pdfFileObj.close()
         return text
->>>>>>> c4c762c05964ac8c0454b76530a1abb8059a5aa7
 
 # Chatgpt model to extract skills
 openai.api_key = os.getenv("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")
@@ -126,13 +78,7 @@ def cv_ranker(applicant_skills, required_skills):
     final_rank = (total_score/ actual_total_weight) *10
     return final_rank
 
-<<<<<<< HEAD
-fr = cv_ranker(applicant_skills, required_skills)
-print(fr)
-threshold = 8
-=======
 # threshold = 8
->>>>>>> c4c762c05964ac8c0454b76530a1abb8059a5aa7
 
 # if (fr> threshold):
 #     print('YAYYYY! You are shortlisted')
