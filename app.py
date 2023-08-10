@@ -173,9 +173,11 @@ def save_job():
         response = {'success': False}
     return jsonify(response)
 
-@app.route('/recruit-job-detail')
-def recruiter_job_detail():
-    return render_template('recruiter_job_detail.html')
+@app.route('/recruit-job-detail/<job_id>')
+def recruiter_job_detail(job_id):
+    collection = MongoDB('jobs')
+    job = collection.find_one({'_id': ObjectId(job_id)})
+    return render_template('recruiter_job_detail.html', job=job)
 
 @app.route('/recruit-job-list')
 def recruiter_job_list():
