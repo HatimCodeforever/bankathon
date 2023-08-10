@@ -239,10 +239,11 @@ def logout():
     session.clear()
     return redirect('/')
 
-@app.route('/get_data')
+@app.route('/get_data',methods=['POST'])
 def getdata():
+    job_id = session['jobid']
     j_collection = MongoDB('jobs')
-    job = j_collection.find_one({'_id': ObjectId('64d506d303defea8aabc74c3')})
+    job = j_collection.find_one({'_id': ObjectId(job_id)})
     job_q = job.get('job_questions')
     return jsonify(job_q)
 
@@ -319,6 +320,7 @@ def run_script():
             'user_id' : session['user_id'],
             'job_id'  : job_id,
             }
+            session['jobid'] = job_id
             collection = MongoDB('shortlisted')
             result = collection.insert_one(new_record)
             if result.inserted_id:
