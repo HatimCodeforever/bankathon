@@ -1,7 +1,4 @@
-
-
 def face_verify():
-
     import cv2
     import pickle
     import face_recognition
@@ -27,10 +24,8 @@ def face_verify():
         enc_frame=face_recognition.face_encodings(frame_rgb,face_loc)
 
         #Threshold for face match
-
         for e,f in zip(enc_frame,face_loc):
             match=face_recognition.compare_faces([enc],e)
-            # print(match)
             dist=face_recognition.face_distance([enc],e)
             dist=1-dist
             cv2.rectangle(frame,(f[3],f[0]),(f[1],f[2]),(255,0,0),2)
