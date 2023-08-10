@@ -68,7 +68,7 @@
                     <div class="notification-list_detail">
                         <p><b>{{job_info['job_title']}}</b></p>
                         <p class="text-muted">Congratuations! You have been Shortlisted for Interview Round for this job</p>
-                        <p><b>Interview Link:- <a href="/interview">Click here</a></b> </p>
+                        <p><b>Interview Link:- <a href="{{ url_for('interview', job_id=job_info['_id']) }}">Click here</a></b> </p>
                         <p>Dead Line: {{job_info['job_deadline']}}</p>
                     </div>
                 </div>
