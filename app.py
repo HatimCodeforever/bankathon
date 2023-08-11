@@ -10,6 +10,7 @@ import pickle
 import mail
 import openai
 import face_recognition
+from deepface import DeepFace
 import base64
 from dotenv import load_dotenv
 from bson.binary import Binary
@@ -279,24 +280,38 @@ def interview(job_id):
 
 @app.route('/face_rec',methods=['POST'])
 def face_rec():
+    models = [
+    "VGG-Face", 
+    "Facenet", 
+    "Facenet512", 
+    "OpenFace", 
+    "DeepFace", 
+    "DeepID", 
+    "ArcFace", 
+    "Dlib", 
+    "SFace",
+    ]
+    backends = [
+    'opencv', 
+    'ssd', 
+    'dlib', 
+    'mtcnn', 
+    'retinaface', 
+    'mediapipe',
+    'yolov8',
+    'yunet',
+    ]
+    metrics = ["cosine", "euclidean", "euclidean_l2"]
+    
     frame_data = request.form.get('frame-data')
     if frame_data:
         image_data = base64.b64decode(frame_data.split(',')[1])
         save_path = os.path.join('uploads/', 'captured_frame.jpg')
         with open(save_path, 'wb') as f:
             f.write(image_data)
-    file=open("uploads/User.p","rb")
-    enc=pickle.load(file)
-    file.close()
-    img=cv2.imread("uploads/captured_frame.jpg")
-    frame_rgb=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
-    face_loc=face_recognition.face_locations(frame_rgb)
-    enc_frame=face_recognition.face_encodings(frame_rgb,face_loc)
-    match=face_recognition.compare_faces(enc,enc_frame)
-    dist=face_recognition.face_distance(enc,enc_frame)
-    dist=(1-dist)*100
-    print("Percentage:- ",dist)
-    if match:
+    result = DeepFace.verify(img1_path = "uploads/captured_frame.jpg", img2_path = "uploads/image.jpg", model_name= models[2], distance_metric=metrics[2])
+    print(result['verified'])
+    if result['verified']:
         response = {'success': True}
     else:
         response = {'success': False}
