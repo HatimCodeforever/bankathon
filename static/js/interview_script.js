@@ -132,6 +132,7 @@ function toggleCamera() {
 
 
 let recognition;
+let f_transcript = "";
 function toggleMicrophone() {
   if (!recognition) {
     toggleMicButton.textContent = "Click to save the answer";
@@ -144,8 +145,9 @@ function toggleMicrophone() {
     };
 
     recognition.onresult = (event) => {
-      const transcript = event.results[event.results.length - 1][0].transcript;
-      console.log("Transcript:", transcript);
+      const interimTranscript = event.results[event.results.length - 1][0].transcript;
+      // console.log("Interim Transcript:", interimTranscript);
+      f_transcript += interimTranscript + " ";
     };
 
     recognition.onerror = (event) => {
@@ -154,6 +156,7 @@ function toggleMicrophone() {
 
     recognition.onend = () => {
       console.log("Stopped listening.");
+      console.log("Final answer:- ",f_transcript)
     };
 
     recognition.start();
