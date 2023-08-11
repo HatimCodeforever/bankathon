@@ -65,8 +65,8 @@
           method: 'GET',
         }).then(response => response.json())
       .then(data => {
+        console.log(interviewQuestions)
         interviewQuestions = data;
-        console.log(javascriptList);
       })
       .catch(error => console.error('Error fetching data:', error));
   </script>
