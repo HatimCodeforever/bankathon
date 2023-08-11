@@ -4,3 +4,5 @@ opencv-python
 python-dotenv
 pymongo
 deepface
+docx2txt
+PyPDF2
