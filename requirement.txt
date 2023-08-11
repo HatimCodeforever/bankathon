@@ -3,6 +3,4 @@ openai
 opencv-python
 python-dotenv
 pymongo
-cmake
-
-face_recognition
+deepface
