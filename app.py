@@ -4,12 +4,8 @@ import os
 import sys
 sys.path.append('python')
 import resume_parser
-import EncodeGen
-import cv2
-import pickle
 import mail
 import openai
-import face_recognition
 from deepface import DeepFace
 import base64
 from dotenv import load_dotenv
