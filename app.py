@@ -164,7 +164,7 @@ def save_job():
             },
             {
                 "role": "user",
-                "content": f'''{dict2}'''
+                "content": dict2
             }
         ],
         max_tokens=450,
