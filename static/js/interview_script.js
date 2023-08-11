@@ -21,7 +21,14 @@ endButton.addEventListener("click", () => {
     confirmButtonText: "OK",
   }).then((result) => {
     if (result.isConfirmed) {
+      fetch('/del_notif', {
+        method: 'GET',
+      }).then(response => response.json())
+    .then(data => {
       window.location.href = "/home";
+    })
+    .catch(error => console.error('Error fetching data:', error));
+      
     }
   });
 });
@@ -32,6 +39,27 @@ async function startCamera() {
     userCamera.srcObject = stream;
   } catch (error) {
     console.error("Error accessing camera:", error);
+  }
+}
+
+var interviewQuestions = []
+   
+let currentQuestionIndex = 0;
+
+function displayQuestion(index) {
+  questionsList.innerHTML = "";
+  if (index >= 0 && index < interviewQuestions.length) {
+    const li = document.createElement("li");
+    li.textContent = interviewQuestions[index];
+    questionsList.appendChild(li);
+
+    if (index === interviewQuestions.length - 1) {
+      nextButton.style.display = "none";
+      endButton.style.display = "block";
+    } else {
+      nextButton.style.display = "block";
+      endButton.style.display = "none";
+    }
   }
 }
 
@@ -71,6 +99,8 @@ function toggleCamera() {
                   displayQuestion(currentQuestionIndex);
                   if (!document.fullscreenElement) {
                     document.documentElement.requestFullscreen();
+                    document.getElementById("footer").style.display = 'none';
+                    document.getElementById("navbar").style.display = 'none';
                   }
                 }
               });
@@ -88,7 +118,14 @@ function toggleCamera() {
           });
       }
     };
+    fetch('/get_data', {
+      method: 'GET',
+    }).then(response => response.json())
+  .then(data => {
+    interviewQuestions = data;
     captureFrame();
+  })
+  .catch(error => console.error('Error fetching data:', error));
   }
 }
 
@@ -128,25 +165,7 @@ function toggleMicrophone() {
 }
 
 
-let currentQuestionIndex = 0;
 
-function displayQuestion(index) {
-  questionsList.innerHTML = "";
-
-  if (index >= 0 && index < interviewQuestions.length) {
-    const li = document.createElement("li");
-    li.textContent = interviewQuestions[index];
-    questionsList.appendChild(li);
-
-    if (index === interviewQuestions.length - 1) {
-      nextButton.style.display = "none";
-      endButton.style.display = "block";
-    } else {
-      nextButton.style.display = "block";
-      endButton.style.display = "none";
-    }
-  }
-}
 
 nextButton.addEventListener("click", () => {
   currentQuestionIndex++;

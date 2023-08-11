@@ -239,6 +239,16 @@ def logout():
     session.clear()
     return redirect('/')
 
+@app.route('/del_notif')
+def del_notif():
+    collection = MongoDB('shortlisted')
+    result = collection.find_one_and_delete({'user_id': session['user_id'],'job_id': session['jobid']})
+    if result:
+        response = {'success': True}
+    else:
+        response = {'success': False}
+    return jsonify(response)
+
 @app.route('/get_data')
 def getdata():
     job_id = session['jobid']
