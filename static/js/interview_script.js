@@ -172,6 +172,7 @@ function toggleMicrophone() {
 
 nextButton.addEventListener("click", () => {
   currentQuestionIndex++;
+  f_transcript = "";
   displayQuestion(currentQuestionIndex);
 });
 
