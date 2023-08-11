@@ -22,7 +22,7 @@ app = Flask(__name__)
 passw = os.getenv("passw")
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
-connection_string = f"mongodb+srv://codeomega:{passw}@cluster0.hnyk6mi.mongodb.net/"
+connection_string = f"mongodb+srv://codeomega:373896178@cluster0.hnyk6mi.mongodb.net/"
 def MongoDB(collection_name):
     client = MongoClient(connection_string)
     db = client.get_database('bankathon')
