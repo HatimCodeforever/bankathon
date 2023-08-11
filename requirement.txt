@@ -4,5 +4,5 @@ opencv-python
 python-dotenv
 pymongo
 cmake
-dlib
+
 face_recognition
