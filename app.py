@@ -35,11 +35,11 @@ def MongoDB(collection_name):
 
 @app.route('/')
 def landing_page():
-    return render_template('landingPage.html')
+    return render_template('index.html')
 
 @app.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('landingPage.html')
 
 @app.route('/category')
 def category():
