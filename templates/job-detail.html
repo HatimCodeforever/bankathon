@@ -7,10 +7,6 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-    
-
-    <!-- Favicon -->
-    <link href="static/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -102,7 +98,7 @@
         
                     <div class="col-lg-4">
                         <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
-                            <h4 class="mb-4">Job Summery</h4>
+                            <h4 class="mb-4">Job Summary</h4>
                             <p><i class="fa fa-angle-right text-primary me-2"></i>Published On: {{ job.cur_date }}</p>
                             <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: {{ job.job_mode }}</p>
                             <p><i class="fa fa-angle-right text-primary me-2"></i>Salary: {{ job.salary_range }}</p>
@@ -130,7 +126,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='lib/wow/wow.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/owlcarousel/owl.carousel.min.js') }}"></script>
 
     <!-- Template Javascript -->

@@ -1,7 +1,6 @@
 flask
-face_recognition
 openai
-cv2
-dotenv
+opencv-python
+python-dotenv
 pymongo
-pickle
+deepface

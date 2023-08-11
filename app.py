@@ -10,6 +10,7 @@ import pickle
 import mail
 import openai
 import face_recognition
+from deepface import DeepFace
 import base64
 from dotenv import load_dotenv
 from bson.binary import Binary
@@ -241,6 +242,16 @@ def logout():
     session.clear()
     return redirect('/')
 
+@app.route('/del_notif')
+def del_notif():
+    collection = MongoDB('shortlisted')
+    result = collection.find_one_and_delete({'user_id': session['user_id'],'job_id': session['jobid']})
+    if result:
+        response = {'success': True}
+    else:
+        response = {'success': False}
+    return jsonify(response)
+
 @app.route('/get_data')
 def getdata():
     job_id = session['jobid']
@@ -272,19 +283,41 @@ def interview(job_id):
 @app.route('/face_rec',methods=['POST'])
 def face_rec():
     models = [
-  "VGG-Face", 
-  "Facenet", 
-  "Facenet512", 
-  "OpenFace", 
-  "DeepFace", 
-  "DeepID", 
-  "ArcFace", 
-  "Dlib", 
-  "SFace",
-]
+    "VGG-Face", 
+    "Facenet", 
+    "Facenet512", 
+    "OpenFace", 
+    "DeepFace", 
+    "DeepID", 
+    "ArcFace", 
+    "Dlib", 
+    "SFace",
+    ]
+    backends = [
+    'opencv', 
+    'ssd', 
+    'dlib', 
+    'mtcnn', 
+    'retinaface', 
+    'mediapipe',
+    'yolov8',
+    'yunet',
+    ]
     metrics = ["cosine", "euclidean", "euclidean_l2"]
-    result = DeepFace.verify(img1_path = "Vedant_Sigai_Hoodie.jpg", img2_path = "WhatsApp Image 2023-08-11 at 12.17.39.jpeg", model_name= models[2], distance_metric=metrics[2])
-    print(result)
+    
+    frame_data = request.form.get('frame-data')
+    if frame_data:
+        image_data = base64.b64decode(frame_data.split(',')[1])
+        save_path = os.path.join('uploads/', 'captured_frame.jpg')
+        with open(save_path, 'wb') as f:
+            f.write(image_data)
+    result = DeepFace.verify(img1_path = "uploads/captured_frame.jpg", img2_path = "uploads/image.jpg", model_name= models[2], distance_metric=metrics[2])
+    print(result['verified'])
+    if result['verified']:
+        response = {'success': True}
+    else:
+        response = {'success': False}
+    return jsonify(response)
 
 @app.route('/resume-parser', methods=['POST'])
 def run_script():
