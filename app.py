@@ -4,12 +4,8 @@ import os
 import sys
 sys.path.append('python')
 import resume_parser
-import EncodeGen
-import cv2
-import pickle
 import mail
 import openai
-import face_recognition
 from deepface import DeepFace
 import base64
 from dotenv import load_dotenv
@@ -28,7 +24,7 @@ app = Flask(__name__)
 passw = os.getenv("passw")
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
-connection_string = f"mongodb+srv://codeomega:{passw}@cluster0.hnyk6mi.mongodb.net/"
+connection_string = "mongodb+srv://codeomega:373896178@cluster0.hnyk6mi.mongodb.net/"
 def MongoDB(collection_name):
     client = MongoClient(connection_string)
     db = client.get_database('bankathon')
@@ -37,11 +33,11 @@ def MongoDB(collection_name):
 
 @app.route('/')
 def landing_page():
-    return render_template('landingPage.html')
+    return render_template('index.html')
 
 @app.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('landingPage.html')
 
 @app.route('/category')
 def category():
@@ -170,7 +166,7 @@ def save_job():
             },
             {
                 "role": "user",
-                "content": f'''{dict2}'''
+                "content": dict2
             }
         ],
         max_tokens=450,
