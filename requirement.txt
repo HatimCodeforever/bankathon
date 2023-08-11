@@ -1,6 +1,6 @@
 flask
 openai
-cv2
+opencv-python
 dotenv
 pymongo
 pickle
