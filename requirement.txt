@@ -3,7 +3,6 @@ openai
 opencv-python
 python-dotenv
 pymongo
-pickle
 cmake
 dlib
 face_recognition
