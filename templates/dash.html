@@ -21,56 +21,64 @@
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Mon', 28, 28, 38, 38],
-        ['Tue', 38, 38, 55, 55],
-        ['Wed', 55, 55, 77, 77],
-        ['Thu', 77, 77, 66, 66],
-        ['Fri', 66, 66, 22, 22]
-        // Treat the first row as data.
-      ], true);
+        ["Day", "Density", { role: "style" }],
+        ["Mon", 8.94, "#b87333"],
+        ["Tue", 10.49, "silver"],
+        ["Wed", 19.30, "gold"],
+        ["Thu", 21.45, "color: #e5e4e2"],
+        ["Fri", 15.60, "#b87333"],
+        ["Sat", 12.75, "silver"],
+        ["Sun", 9.80, "gold"]
+      ]);
+
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+        {
+          calc: "stringify",
+          sourceColumn: 1,
+          type: "string",
+          role: "annotation"
+        },
+        2]);
 
       var options = {
-        backgroundColor: '#2a2b38',
-        legend: 'none',
-        bar: { groupWidth: '100%' },
-        candlestick: {
-          fallingColor: { strokeWidth: 0, fill: '#FF0060' },
-          risingColor: { strokeWidth: 0, fill: '#9376E0' }
+        title: "Jobs Posted This Week",
+        width: 900,
+        height: 380,
+        bar: { groupWidth: "90%" },
+        legend: { position: "none" },
+        backgroundColor: "white", // Set the background color here
+        titleTextStyle: {
+          color: "white", // Set the font color of the title to white
+          fontSize: 18
         },
         hAxis: {
           textStyle: {
-            color: 'white' // Set the horizontal axis text color here
+            color: "darkblue", // Set the font color of the horizontal axis labels to white
+            fontSize: 15
           }
         },
         vAxis: {
           textStyle: {
-            color: 'white' // Set the vertical axis text color here
+            color: "darkblue", // Set the font color of the vertical axis labels to white
+            fontSize: 13
           }
         }
       };
-
-      var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
-      chart.draw(data, options);
+      var chart = new google.visualization.ColumnChart(document.getElementById("barchart_values"));
+      chart.draw(view, options);
     }
-  </script>
+</script>
 </head>
 
 <body>
 
   <div class="app-container">
     <div class="app-left">
-      <button class="close-menu">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-          class="feather feather-x">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-      </button>
       <div class="app-logo">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -79,17 +87,17 @@
           <line x1="12" y1="20" x2="12" y2="4" />
           <line x1="6" y1="20" x2="6" y2="14" />
         </svg>
-        <span>SmartHire</span>
+        <span style="margin-left: 4px; font-size: larger;"><b>SmartHire</b></span>
       </div>
       <ul class="nav-list">
         <li class="nav-list-item active">
           <a class="nav-list-link" href="/dashboard">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"
               class="feather feather-columns">
               <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18" />
             </svg>
-            Dashboard
+            <span style="margin-left: 4px;">Dashboard</span>
           </a>
         </li>
         <li class="nav-list-item">
@@ -100,38 +108,20 @@
               <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
               <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
             </svg>
-            Jobs
+            <span style="margin-left: 4px;">Jobs</span>
           </a>
         </li>
       </ul>
     </div>
     <div class="app-main">
       <div class="main-header-line">
-        <h1 class='textwork'>Applications Dashboard</h1>
-        <div class="action-buttons">
-          <button class="open-right-area">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="feather feather-activity">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-            </svg>
-          </button>
-          <button class="menu-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="feather feather-menu">
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
-          </button>
-        </div>
+        <h1 class='textwork'>Dashboard</h1>
       </div>
       <div class="chart-row three">
         <div class="chart-container-wrapper">
-          <div class="chart-container">
+          <div class="chart-container" style="height: 165px;">
             <div class="chart-info-wrapper">
-              <h2 style="color: white;">Applications</h2>
+              <h2>Applications</h2>
               <span>20.5 K</span>
             </div>
             <div class="chart-svg">
@@ -148,7 +138,7 @@
           </div>
         </div>
         <div class="chart-container-wrapper">
-          <div class="chart-container">
+          <div class="chart-container" style="height: 165px;">
             <div class="chart-info-wrapper">
               <h2>Shortlisted</h2>
               <span>5.5 K</span>
@@ -166,39 +156,8 @@
             </div>
           </div>
         </div>
-        <div class="chart-container-wrapper">
-          <div class="chart-container">
-            <div class="chart-info-wrapper">
-              <h2>On-hold</h2>
-              <span>10.5 K</span>
-            </div>
-            <div class="chart-svg">
-              <svg viewBox="0 0 36 36" class="circular-chart orange">
-                <path class="circle-bg" d="M18 2.0845
-            a 15.9155 15.9155 0 0 1 0 31.831
-            a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                <path class="circle" stroke-dasharray="90, 100" d="M18 2.0845
-            a 15.9155 15.9155 0 0 1 0 31.831
-            a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                <text x="18" y="20.35" class="percentage">90%</text>
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="chart-row two">
-        <div class="chart-container-wrapper big">
-          <div class="chart-container">
-            <div class="chart-container-header">
-              <h2>Top Active Jobs</h2>
-              <span>Last 30 days</span>
-            </div>
-            <div id="chart_div" style="width: 700px; height: 300px;"></div>
-          </div>
-
-        </div>
         <div class="chart-container-wrapper small">
-          <div class="chart-container">
+          <div class="chart-container" style="height: 165px;display: block;" >
             <div class="chart-container-header">
               <h2>Acquisitions</h2>
               <span href="#">This month</span>
@@ -220,17 +179,25 @@
               <span class="progress-amount">18%</span>
             </div>
             <div class="progress-bar-info">
-              <span class="progress-color on-hold"></span>
-              <span class="progress-type">On-hold</span>
-              <span class="progress-amount">10%</span>
-            </div>
-            <div class="progress-bar-info">
               <span class="progress-color rejected"></span>
               <span class="progress-type">Rejected</span>
               <span class="progress-amount">8%</span>
             </div>
           </div>
         </div>
+      </div>
+      <div class="chart-row two" style="justify-content: center;">
+        <div class="chart-container-wrapper big">
+          <div class="chart-container">
+            <div class="chart-container-header">
+              <h2>Top Active Jobs</h2>
+              <span>Last 30 days</span>
+            </div>
+            <div id="barchart_values"></div>
+          </div>
+
+        </div>
+        
       </div>
     </div>
 

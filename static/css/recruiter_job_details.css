@@ -1,23 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+
 :root {
-    --app-bg-dark: white;
-    --app-bg-before: linear-gradient(180deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
-    --app-bg-before-2: linear-gradient(0deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
-    --app-bg-light: #2a2b38;
-    --app-logo: #3d7eff;
-    --nav-link: #5e6a81;
-    --nav-link-active: #fff;
-    --list-item-hover: #0c1635;
-    --main-color: black;
-    --secondary-color: #5e6a81;
-    --color-light: white;
-    --warning-bg: #ffe5e5;
-    --warning-icon: #ff8181;
-    --applicant-bg: #e3fff1;
-    --applicant-icon: #61e1a1;
-    --close-bg: #fff8e5;
-    --close-icon: #fdbc64;
-    --draft-bg:  #fed8b3;
-    --draft-icon:  #e9780e;
+  --app-logo: rgb(43, 16, 87);
+  --nav-link: white;
+  --nav-link-active: #cd2020;
+  }
+
+  .app-logo {
+    display: flex;
+    align-items: center;
+    color: var(--app-logo);
+    padding: 0 24px;
+    
+    span {
+      color: #fff;
+      display: inline-block;
+      line-height: 24px;
+      font-size: 16px;
+      margin-left: 16px;
+    }
   }
  
 .white{
@@ -35,97 +36,56 @@
 }
 
 .app-left {
-  flex-basis: 240px;
-  padding: 24px 0;
+  flex-basis: 200px;
   background-color: #c32157;
-  transition: all 0.4s ease-in;
   height: 100%;
-  width: 16vw;
-  position: fixed; /* Fix the component */
-  left: 0; /* Position from the left edge */
-  top: 0; /* Position from the top edge */
-  bottom: 0; /* Take the full height */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px 0;
+  transition: all .4s ease-in;
 }
 
 .app-right {
   flex-grow: 1;
+  flex-basis: 320px;
   padding: 40px;
+  width: 320px;
   background-color: white;
   height: 100%; /* Use 100% height */
   overflow-y: auto; /* Enable vertical scrolling */
-  margin-left: 240px; /* Account for the width of app-left */
   box-sizing: border-box; /* Include padding in the width */
 }
 
-/* ... the rest of your CSS ... */
-
-
-  .close-menu {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background-color: transparent;
-    padding: 0;
-    color: var(--main-color);
-    cursor: pointer;
-  }
-
   .nav-list {
-    margin-top: 40px;
+    margin-top: 20px;
+    padding: 0px;
   }
   
   .nav-list-item {
     margin-bottom: 12px;
-    
-    &:not(.active):hover {
-      background-color: var(--applicant-bg);
-    }
-    
-    &.active {
-      .nav-list-link {
-        color: var(--nav-link-active);
-        
-        &:after {
-          height: 100%;
-          opacity: 1;
-        }
-      }
-      
-      svg {
-        stroke: var(--app-logo);
-      }
-    }
+  }
+
+  .active.nav-list-item{
+  background-color: #a1092f;
+  }
+
+  .nav-list-item:hover a {
+    color: rgb(43, 16, 87);
   }
   
   .nav-list-link {
     font-weight: 300;
     font-size: 14px;
+    font-family: 'Poppins', sans-serif;
     line-height: 24px;
-    padding: 10px 0px;
-    color: var(--nav-link);
+    padding: 10px 24px;
+    color: white;
     display: flex;
     align-items: center;
     position: relative;
     
     svg {
       margin-right: 12px;
-    }
-    
-    &:after {
-      content: '';
-      height: 100%;
-      width: 2px;
-      background-color: var(--app-logo);
-      right: 0;
-      top: 0;
-      position: absolute;
-      border-radius: 2px;
-      opacity: 0;
-      height: 0;
     }
   }
   .btn {

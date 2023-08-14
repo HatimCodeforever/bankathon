@@ -24,7 +24,7 @@ app = Flask(__name__)
 passw = os.getenv("passw")
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
-connection_string = "mongodb+srv://codeomega:373896178@cluster0.hnyk6mi.mongodb.net/"
+connection_string = f"mongodb+srv://codeomega:{passw}@cluster0.hnyk6mi.mongodb.net/"
 def MongoDB(collection_name):
     client = MongoClient(connection_string)
     db = client.get_database('bankathon')
@@ -166,7 +166,7 @@ def save_job():
             },
             {
                 "role": "user",
-                "content": dict2
+                "content": f'''{dict2}'''
             }
         ],
         max_tokens=450,
@@ -271,9 +271,6 @@ def interview(job_id):
         saved_image_path = "uploads/image.jpg"
         with open(saved_image_path, "wb") as f:
             f.write(image_binary)
-        img= EncodeGen.cv2.imread("uploads/image.jpg")
-        enc=EncodeGen.Encode(img)
-        EncodeGen.SaveEnc(enc)
     return render_template('interview.html',job_q=job_q)
 
 @app.route('/face_rec',methods=['POST'])
@@ -359,5 +356,4 @@ def run_script():
         return jsonify({'error': 'Invalid file format'})
 
 if __name__ == "__main__":
-    # app.run(host='0.0.0.0', port=8080)
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
