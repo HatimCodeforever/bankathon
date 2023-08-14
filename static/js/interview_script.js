@@ -154,7 +154,7 @@ let f_transcript = "";
 function toggleMicrophone() {
   if (!recognition) {
     f_transcript = "";
-    toggleMicButton.textContent = "Click to save the answer";
+    toggleMicButton.textContent = "Save Answer";
     recognition = new webkitSpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = false;
