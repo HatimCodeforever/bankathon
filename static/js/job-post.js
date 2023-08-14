@@ -327,12 +327,11 @@ let names = ['CEO - Chief Executive Officer',
   'Automation Engineer',
 ]
 
-
 let sortNames = names.sort();
 
 let input = document.getElementById("jobTitle");
 
-input.addEventListener("keyup", (e) => {
+input.addEventListener("click", (e) => {
   removeElements();
   for (let i of sortNames) {
     if (i.toLowerCase().startsWith(input.value.toLowerCase()) && input.value != "") {
