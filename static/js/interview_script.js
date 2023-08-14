@@ -10,7 +10,6 @@ const endButton = document.getElementById("end-button");
 nextButton.style.display = 'none';
 
 let answer = [];
-
 endButton.addEventListener("click", () => {
   if (document.fullscreenElement) {
     document.exitFullscreen();
@@ -22,14 +21,20 @@ endButton.addEventListener("click", () => {
     icon: "success",
     confirmButtonText: "OK",
   }).then((result) => {
+    const requestData = {
+      questions: interviewQuestions,
+      answers: answer
+    };
     if (result.isConfirmed) {
       fetch('/del_notif', {
-        method: 'GET',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
       }).then(response => response.json())
     .then(data => {
-      console.log("question are: ",interviewQuestions)
-      console.log("answers are: ",answer)
-      // window.location.href = "/home";
+      window.location.href = "/home";
       
     })
     .catch(error => console.error('Error fetching data:', error));
