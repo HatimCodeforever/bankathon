@@ -56,8 +56,16 @@ var interviewQuestions = []
    
 let currentQuestionIndex = 0;
 
+
+let voices = [];
+window.speechSynthesis.onvoiceschanged = function() {
+  voices = window.speechSynthesis.getVoices();
+};
+
 const speak = (text) => {
   let msg = new SpeechSynthesisUtterance();
+  let chosenVoice = voices[82];
+  msg.voice = chosenVoice;
   msg.text = text;
   window.speechSynthesis.speak(msg);
 };
@@ -125,7 +133,7 @@ function toggleCamera() {
             } else {
               Swal.fire({
                 title: 'Error!',
-                text: 'Face does not Match!1, try again',
+                text: 'Face does not match! Try again',
                 icon: 'error',
                 confirmButtonText: 'Okay'
               });
