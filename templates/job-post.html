@@ -6,6 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/job-post.css">
     <title>SmartHire - Post a Job</title>
+
+    <style>
+        ul{
+            list-style: none;           
+        }
+        .list{
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0 0 5px 5px ;
+        }
+        .list-items{
+            padding: 10px 5px;
+        } 
+        .list-items:hover{
+            background-color: #dddddd;
+        }
+    </style>    
 </head>
 
 <body>
@@ -19,7 +36,7 @@
                     <div class="form-section">
                         <input type="text" id="jobTitle" name="jobTitle" class="form-style" placeholder="Job Title"
                             required><br><br><br><br>
-
+                        <ul class="list"></ul>    
 
                             <!-- It just needs to be inserted somewhere over her... im just afraid to do so; imagine breaking the entire shit, and hatim being mad about this bullshit -->
                         <label for="jobDescription" class="white">Job Description:</label><br><br>
