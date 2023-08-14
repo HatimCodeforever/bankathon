@@ -46,7 +46,6 @@
         2]);
 
       var options = {
-        title: "Jobs Posted This Week",
         width: 900,
         height: 380,
         bar: { groupWidth: "90%" },
@@ -111,6 +110,11 @@
             <span style="margin-left: 4px;">Jobs</span>
           </a>
         </li>
+        <li class="nav-list-item">
+          <a class="nav-list-link" href="/logout">
+            <span style="margin-left: 4px;">Logout</span>
+          </a>
+        </li>
       </ul>
     </div>
     <div class="app-main">
@@ -121,8 +125,8 @@
         <div class="chart-container-wrapper">
           <div class="chart-container" style="height: 165px;">
             <div class="chart-info-wrapper">
-              <h2>Applications</h2>
-              <span>20.5 K</span>
+              <h2>Rejected Applications</h2>
+              <span>Count: {{rej}}</span>
             </div>
             <div class="chart-svg">
               <svg viewBox="0 0 36 36" class="circular-chart pink">
@@ -132,7 +136,7 @@
                 <path class="circle" stroke-dasharray="30, 100" d="M18 2.0845
             a 15.9155 15.9155 0 0 1 0 31.831
             a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                <text x="18" y="20.35" class="percentage">30%</text>
+                <text x="18" y="20.35" class="percentage">{{rej_per}}%</text>
               </svg>
             </div>
           </div>
@@ -140,8 +144,8 @@
         <div class="chart-container-wrapper">
           <div class="chart-container" style="height: 165px;">
             <div class="chart-info-wrapper">
-              <h2>Shortlisted</h2>
-              <span>5.5 K</span>
+              <h2>Shortlisted Applications</h2>
+              <span>Count: {{short}}</span>
             </div>
             <div class="chart-svg">
               <svg viewBox="0 0 36 36" class="circular-chart blue">
@@ -151,7 +155,7 @@
                 <path class="circle" stroke-dasharray="60, 100" d="M18 2.0845
             a 15.9155 15.9155 0 0 1 0 31.831
             a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                <text x="18" y="20.35" class="percentage">60%</text>
+                <text x="18" y="20.35" class="percentage">{{short_per}}%</text>
               </svg>
             </div>
           </div>
@@ -160,28 +164,20 @@
           <div class="chart-container" style="height: 165px;display: block;" >
             <div class="chart-container-header">
               <h2>Acquisitions</h2>
-              <span href="#">This month</span>
             </div>
             <div class="acquisitions-bar">
               <span class="bar-progress rejected" style="width:8%;"></span>
-              <span class="bar-progress on-hold" style="width:10%;"></span>
               <span class="bar-progress shortlisted" style="width:18%;"></span>
-              <span class="bar-progress applications" style="width:64%;"></span>
-            </div>
-            <div class="progress-bar-info">
-              <span class="progress-color applications"></span>
-              <span class="progress-type">Applications</span>
-              <span class="progress-amount">64%</span>
             </div>
             <div class="progress-bar-info">
               <span class="progress-color shortlisted"></span>
               <span class="progress-type">Shortlisted</span>
-              <span class="progress-amount">18%</span>
+              <span class="progress-amount">{{short_per}}%</span>
             </div>
             <div class="progress-bar-info">
               <span class="progress-color rejected"></span>
               <span class="progress-type">Rejected</span>
-              <span class="progress-amount">8%</span>
+              <span class="progress-amount">{{rej_per}}%</span>
             </div>
           </div>
         </div>
