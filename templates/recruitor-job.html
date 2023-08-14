@@ -42,49 +42,40 @@
 
     <div class="app-container">
         <div class="app-left">
-            <button class="close-menu">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            <div class="app-logo" style="color: rgb(43, 16, 87);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-bar-chart-2">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+              <span style="margin-left: 4px; font-size: larger;"><b>SmartHire</b></span>
+            </div>
+            <ul class="nav-list" style="margin-left: 0px;">
+              <li class="nav-list-item">
+                <a class="nav-list-link" href="/dashboard">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2"  stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-columns">
+                    <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18" />
+                  </svg>
+                  <span style="margin-left: 4px;">Dashboard</span>
+                </a>
+              </li>
+              <li class="nav-list-item active">
+                <a class="nav-list-link" href="/recruit-job-list">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-x">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-            </button>
-            <div class="app-logo mx-4" style="color: white;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="feather feather-bar-chart-2">
-                  <line x1="18" y1="20" x2="18" y2="10" />
-                  <line x1="12" y1="20" x2="12" y2="4" />
-                  <line x1="6" y1="20" x2="6" y2="14" />
-                </svg>
-                <span>SmartHire</span>
-              </div>
-            <ul class="nav-list">
-                <li class="nav-list-item">
-                    <a class="nav-list-link" href="/dashboard">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-columns">
-                            <path
-                                d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18" />
-                        </svg>
-                        Dashboard
-                    </a>
-                </li>
-                <li class="nav-list-item active">
-                    <a class="nav-list-link" href="/recruit-job-list">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="feather feather-briefcase">
-                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-                        </svg>
-                        Jobs
-                    </a>
-                </li>
+                    class="feather feather-briefcase">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                  </svg>
+                  <span style="margin-left: 4px;">Jobs</span>
+                </a>
+              </li>
             </ul>
-        </div>
+          </div>
         <div class="app-right">
             <a href="/job-post" class="btn" style="position: relative; left: 83%; top: 1%; width: 10vw; height: 5vh; font-size: small;">Post a Job</a>
             <div class="container-xxl py-5">
@@ -112,7 +103,9 @@
                         </ul>
                         <div class="tab-content" style="color: black;">
                             <div id="tab-1" class="tab-pane fade show p-0 active">
-                                {% for job in conjobs %}
+                                {% set job_list = conjobs|list %}
+                            {% if job_list %}
+                                {% for job in job_list %}
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
@@ -137,9 +130,14 @@
                                     </div>
                                 </div>
                                 {% endfor %}
+                                {% else %}
+                                    <b><p>No jobs posted</p></b>
+                                {% endif %}
                             </div>
                             <div id="tab-2" class="tab-pane fade show p-0">
-                                {% for job in fulljobs %}
+                                {% set job_list = fulljobs|list %}
+                                {% if job_list %}
+                                    {% for job in job_list %}
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
@@ -164,9 +162,14 @@
                                     </div>
                                 </div>
                                 {% endfor %}
+                                {% else %}
+                                    <b><p>No jobs posted</p></b>
+                                {% endif %}
                             </div>
                             <div id="tab-3" class="tab-pane fade show p-0">
-                                {% for job in partjobs %}
+                                {% set job_list = partjobs|list %}
+                            {% if job_list %}
+                                {% for job in job_list %}
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
@@ -191,6 +194,9 @@
                                     </div>
                                 </div>
                                 {% endfor %}
+                            {% else %}
+                                <b><p>No jobs posted</p></b>
+                            {% endif %}
                             </div>
                         </div>
                     </div>
