@@ -9,6 +9,7 @@ const nextButton = document.getElementById("next-button");
 const endButton = document.getElementById("end-button");
 nextButton.style.display = 'none';
 
+let answer = [];
 endButton.addEventListener("click", () => {
   if (document.fullscreenElement) {
     document.exitFullscreen();
@@ -20,12 +21,21 @@ endButton.addEventListener("click", () => {
     icon: "success",
     confirmButtonText: "OK",
   }).then((result) => {
+    const requestData = {
+      questions: interviewQuestions,
+      answers: answer
+    };
     if (result.isConfirmed) {
       fetch('/del_notif', {
-        method: 'GET',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
       }).then(response => response.json())
     .then(data => {
       window.location.href = "/home";
+      
     })
     .catch(error => console.error('Error fetching data:', error));
       
@@ -143,7 +153,8 @@ let recognition;
 let f_transcript = "";
 function toggleMicrophone() {
   if (!recognition) {
-    toggleMicButton.textContent = "Save Answer";
+    f_transcript = "";
+    toggleMicButton.textContent = "Click to save the answer";
     recognition = new webkitSpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = false;
@@ -154,7 +165,6 @@ function toggleMicrophone() {
 
     recognition.onresult = (event) => {
       const interimTranscript = event.results[event.results.length - 1][0].transcript;
-      // console.log("Interim Transcript:", interimTranscript);
       f_transcript += interimTranscript + " ";
     };
 
@@ -180,6 +190,7 @@ function toggleMicrophone() {
 
 nextButton.addEventListener("click", () => {
   currentQuestionIndex++;
+  answer.push(f_transcript); 
   f_transcript = "";
   displayQuestion(currentQuestionIndex);
 });
