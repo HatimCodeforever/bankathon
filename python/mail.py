@@ -26,8 +26,9 @@ def send_mail(rec,t,name,job):
 
 Best regards,
 
-CodeOmega
+
 HR Team
+Axis Bank
         """
     elif t==2:
         sub=f"Update on Your Application for {job} - Round 1 Bankathon"
@@ -46,29 +47,50 @@ HR Team
 
 Warm regards,
 
-Vedant
 HR Team
 Axis Bank
-
-
-
-
-
-
-        
-        regards,
-        Ved
         """
     elif t==3:
-        sub=f"The candidates have been selected - Bankathon"
+        sub=f"Congratulations! You have passed the first round interview!"
         body=f"""
-        To the HR Team,
-        The candidate selection list has been processed. Please check the website for the same.
-        the link is: [LINK NEEDED GUYSSSSSS]
-        
-        regards,
-        Ved
+        Dear {name},
+
+        You have successfully cleared the first round of interview. We're excited to have you proceed to the next stage!
+        The details about the next round will be conveyed shortly. Be prepared!
+
+Best regards,
+
+HR Team
+Axis Bank
         """
+
+    elif t==4:
+        sub=f"Your Interview Results for Axis bank are out!"
+        body=f"""
+        Dear {name},
+
+        I hope this email finds you well. We wanted to take a moment to express our gratitude for your interest in the {job} role at Axis Bank and for your participation in our interview process.
+
+        After careful consideration, we regret to inform you that we have chosen to move forward with other candidates whose qualifications more closely align with our current needs. While we were impressed with your skills and experience, the selection process can be quite competitive, and we had to make some tough decisions.
+
+        We want to thank you for taking the time to interview with us and for sharing your background and expertise. We genuinely appreciate your interest in joining our team.
+
+        Please know that your application and interview experience remain on record, and we encourage you to explore future opportunities with us. Our organization is continuously evolving, and we believe that your skills and qualifications may align with other roles in the future.
+
+        We wish you the best in your job search and professional endeavors. If you have any questions or would like feedback on your interview performance, please feel free to reach out to us.
+
+        Thank you once again for considering Axis Bank as a potential employer. We truly value your time and effort.
+
+Best regards,
+
+[Your Name]
+[Your Title]
+[Company Name]
+[Contact Information]
+        
+
+        """
+
 
 
     em=EmailMessage()

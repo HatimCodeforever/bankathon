@@ -247,11 +247,15 @@ def logout():
 
 @app.route('/del_notif',methods=['POST'])
 def del_notif():
+    collection = MongoDB('applicant')
+    user = collection.find_one({'_id': ObjectId(session['user_id'])})
+    collection = MongoDB('jobs')
+    job_id = request.form.get('job')
+    job = collection.find_one({'_id': ObjectId(job_id)})
     data = request.json
     questions = data.get('questions', [])
     answers = data.get('answers', [])
     collection = MongoDB('shortlisted')
-    result = collection.find_one_and_delete({'user_id': session['user_id'],'job_id': session['jobid']})
     prompt = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages= [
@@ -288,9 +292,11 @@ def del_notif():
     scores_int = {key:int(value) for key, value in scores.items()}
     final_grade = scores_int['accuracy']*0.25 + scores_int['completeness']*0.2 + scores_int['clarity']*0.2 + scores_int['relevance']*0.2 + scores_int['understanding']*0.15
     print("Final Grade:- ",final_grade)
-    if final_grade>7.5:
-        print("SHortlisted")
+    if final_grade>=7.5:
+        mail.send_mail(user.get('email'),3,user.get('first_name'),job.get('job_title'))
+        print("Shortlisted")
     else:
+        mail.send_mail(user.get('email'),4,user.get('first_name'),job.get('job_title'))
         print("Not shortlisted Loser!!") 
 
     response = {'success': True}
