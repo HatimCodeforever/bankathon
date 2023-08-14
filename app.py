@@ -136,7 +136,14 @@ def registerpost():
 
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dash.html')
+    collection = MongoDB('shortlisted')
+    doc_count = collection.count_documents({'rec_id': ObjectId(session['user_id'])})
+    r_collection = MongoDB('rejected')
+    rej_count = r_collection.count_documents({'rec_id': ObjectId(session['user_id'])})
+    final = doc_count + rej_count
+    rej_per = rej_count / final * 100
+    short_per = doc_count / final * 100
+    return render_template('dash.html',totalcount=final,rej=rej_count,short=doc_count,rej_per= rej_per,short_per=short_per)
 
 @app.route('/job-post')
 def jobpost():
@@ -321,6 +328,7 @@ def run_script():
     req_skills ={}
     collection = MongoDB('jobs')
     job = collection.find_one({'_id': ObjectId(job_id)})
+    rec_id = job.get('rec_id')
     required_skills = job.get('required_skills', [])
     for skill in required_skills:
         skill_name = skill.get('name')
@@ -341,19 +349,27 @@ def run_script():
             new_record = {
             'user_id' : session['user_id'],
             'job_id'  : job_id,
+            'rec_id'  : rec_id,   
             }
-            
             collection = MongoDB('shortlisted')
             result = collection.insert_one(new_record)
             if result.inserted_id:
-                return jsonify({'success': True})
+                response = {'success': True}
             else:
-                mail.send_mail(user.get('email'),2,user.get('first_name'),job.get('job_title'))
-
-        response = {'success': True}
-        return jsonify(response)
+                response = {'success': False}
+            return jsonify(response)
+        else:
+            new_record = {
+            'user_id' : session['user_id'],
+            'job_id'  : job_id,
+            'rec_id'  : rec_id,   
+            }
+            collection = MongoDB('rejected')
+            result = collection.insert_one(new_record)
+            mail.send_mail(user.get('email'),2,user.get('first_name'),job.get('job_title'))
+            return jsonify({'success': True})
     else:
-        return jsonify({'error': 'Invalid file format'})
+        return jsonify({'success': False})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
