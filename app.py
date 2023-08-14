@@ -369,7 +369,53 @@ def run_script():
             mail.send_mail(user.get('email'),2,user.get('first_name'),job.get('job_title'))
             return jsonify({'success': True})
     else:
-        return jsonify({'success': False})
+        return jsonify({'error': 'Invalid file format'})
+    
+@app.route('/final', methods=['GET'])
+def interview_score():
+    questions = []
+    answers = []
+
+    prompt = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages= [
+            {
+                "role": "system",
+                "content": '''You are a strict grader. You will be given a set of questions asked by the interviewer along with the corresponding set of answers that was given by the examinee. Your task is to provide an overall grade to the parameters for the answers on a scale of 1 to 10, with 0 being very bad and 10 being the best, without adding any further details. You are supposed to provide an aggregate score to all the answers at once. Don't score each answer separately. The description of the parameters is provided to you. Please provide an overall score to the parameters accordingly. Here is the description of the parameters:
+                Accuracy: The answer should be accurate and correct, with no factual errors or misunderstandings.
+                Completeness: The answer should cover all the relevant aspects of the question and provide a comprehensive response.
+                Clarity: The answer should be clear and easy to understand, with well-organized thoughts and ideas. If the question is technical, technical terms should be preferred.
+                Relevance: The answer should stay focused on the question and not include irrelevant information or tangents.
+                Understanding: The answer should demonstrate a deep understanding of the topic, with thoughtful analysis and insights.Template - ```
+                Overall score for each parameter-
+                accuracy = (accuracy_score)
+                completeness = (completeness_score)
+                clarity = (clarity_score)
+                relevance = (relevance_score)
+                understanding = (understanding_score)```'''
+            },
+            {
+                "role": "user",
+                "content":
+                f'''Q: {questions} 
+                    A: {answers}'''
+            }
+        ],
+        max_tokens=450,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+    all_scores = prompt.choices[0].message.content
+
+    pattern = r'(\w+)\s*=\s*(\d+)'
+
+    matches = re.findall(pattern, all_scores)
+    scores = dict(matches)
+
+    scores_int = {key:int(value) for key, value in scores.items()}
+
+    final_grade = scores_int['accuracy']*0.25 + scores_int['completeness']*0.2 + scores_int['clarity']*0.2 + scores_int['relevance']*0.2 + scores_int['understanding']*0.15
+    print(final_grade)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
