@@ -2,31 +2,14 @@
 
 * {
   box-sizing: border-box;
-  margin: 0; 
+  margin: 0;
   padding: 0;
 }
 
 :root {
-  --app-bg-dark: #01081f;
-  --app-bg-before: linear-gradient(180deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
-  --app-bg-before-2: linear-gradient(0deg, rgba(1,8,31,0) 0%, rgba(1,8,31,1) 100%);
-  --app-bg-light: #151c32;
-  --app-logo: white;
-  --nav-link: #5e6a81;
-  --nav-link-active: #fff;
-  --list-item-hover: #0c1635;
-  --main-color: #fff;
-  --secondary-color: #5e6a81;
-  --color-light: rgba(52, 129, 210, .2);
-  --warning-bg: #ffe5e5;
-  --warning-icon: #ff8181;
-  --applicant-bg: #e3fff1;
-  --applicant-icon: #61e1a1;
-  --close-bg: #fff8e5;
-  --close-icon: #fdbc64;
-  --draft-bg:  #fed8b3;
-  --draft-icon:  #e9780e;
-  
+  --app-logo: rgb(43, 16, 87);
+  --nav-link: white;
+  --nav-link-active: #cd2020;
 }
 
 body {
@@ -48,18 +31,13 @@ body {
 }
 
 .app-left {
-  flex-basis: 240px;
+  flex-basis: 200px;
   background-color: #c32157;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 24px 0;
   transition: all .4s ease-in;
-  
-  &.show {
-    right: 0;
-    opacity: 1;
-  }
 }
 
 .app-main {
@@ -68,14 +46,10 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   background-color: var(--app-bg-light);
-  padding: 24px;
-  /* background: radial-gradient(circle, rgba(5,19,64,1) 1%, rgba(4,15,50,1) 100%); */
+  padding: 10px;
   background-color: white;
 }
 
-.textwork{
-  color: black;
-}
 .app-right {
   flex-basis: 320px;
   width: 320px;
@@ -117,7 +91,6 @@ body {
   display: flex;
   align-items: center;
   color: var(--app-logo);
-  margin-right: 16px;
   padding: 0 24px;
   
   span {
@@ -142,57 +115,33 @@ a {
 button { cursor: pointer; }
 
 .nav-list {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .nav-list-item {
   margin-bottom: 12px;
-  
-  &:not(.active):hover {
-    background-color: var(--applicant-bg);
-  }
-  
-  &.active {
-    .nav-list-link {
-      color: white;
-      
-      &:after {
-        height: 100%;
-        opacity: 1;
-      }
-    }
-    
-    svg {
-      stroke: var(--app-logo);
-    }
-  }
+}
+
+.active{
+  background-color: #a1092f;
+}
+
+.nav-list-item:hover a {
+  color: rgb(43, 16, 87);
 }
 
 .nav-list-link {
   font-weight: 300;
   font-size: 14px;
   line-height: 24px;
-  padding: 8px 24px;
-  color: var(--nav-link);
+  padding: 10px 24px;
+  color: white;
   display: flex;
   align-items: center;
   position: relative;
   
   svg {
     margin-right: 12px;
-  }
-  
-  &:after {
-    content: '';
-    height: 100%;
-    width: 2px;
-    background-color: var(--app-logo);
-    right: 0;
-    top: 0;
-    position: absolute;
-    border-radius: 2px;
-    opacity: 0;
-    height: 0;
   }
 }
 
@@ -213,7 +162,7 @@ button { cursor: pointer; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 5px;
   
   h1 {
     color: var(--main-color);
@@ -248,6 +197,7 @@ button { cursor: pointer; }
     
     &:hover, &:focus {
       border: 1px solid #3481d2;
+      /* background-color: #c32157; */
       box-shadow: 0 0 0 3px var(--color-light);
     }
   }
@@ -267,7 +217,7 @@ button { cursor: pointer; }
   &.two {
     .big {
       flex: 1;
-      max-width: 77.7%;
+      max-width: 100%;
       
       .chart-container {
         flex-direction: column;
@@ -293,16 +243,11 @@ button { cursor: pointer; }
 .chart-container {
   width: 100%;
   border-radius: 10px;
-  background-color: #2a2b38;
-  color: white;
+  background-color: #e0dcdcc0;
+  color: #333333;
   padding: 16px;
   display: flex;
   align-items: center;
-  
-  &.applicants {
-    max-height: 336px;
-    overflow-y: auto;
-  }
 }
 
 .chart-container-wrapper {
@@ -311,7 +256,7 @@ button { cursor: pointer; }
 
 .chart-info-wrapper {
   flex-shrink: 0;
-  flex-basis: 120px;
+  flex-basis: 100px;
   
   h2 {
     color: var(--secondary-color);
@@ -368,7 +313,7 @@ button { cursor: pointer; }
 }
 
 .percentage {
-  fill: white;
+  fill: darkblue;
   font-size: 0.5em;
   text-anchor: middle;
   font-weight: 400;
@@ -409,7 +354,7 @@ button { cursor: pointer; }
   margin-top: 16px;
   margin-bottom: 8px;
   display: flex;
-  color: white;
+  color: #333333;
 }
 
 .bar-progress {
@@ -461,13 +406,13 @@ button { cursor: pointer; }
 }
 
 .progress-type {
-  color: white;
+  color: #333333;
   font-size: 12px;
   line-height: 16px;
 }
 
 .progress-amount {
-  color: white;
+  color: darkblue;
   font-size: 12px;
   line-height: 16px;
   margin-left: auto;
@@ -700,8 +645,8 @@ button { cursor: pointer; }
 .close-menu {
   position: absolute;
   top: 16px;
-  right: 16px;
-  display: none;
+  left: 10px;
+  display: block;
   align-items: center;
   justify-content: center;
   border: none;

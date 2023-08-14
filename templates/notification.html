@@ -59,7 +59,9 @@
         <h3 class="m-b-50 heading-line">Notifications <i class="fa fa-bell text-muted"></i></h3>
 
         <div class="notification-ui_dd-content">
-            {% for job_info in job_info_list %}
+             {% set job_list = job_info_list|list %}
+            {% if job_list %}
+            {% for job_info in job_list %}
             <div class="notification-list">
                 <div class="notification-list_content">
                     <div class="notification-list_img">
@@ -74,6 +76,9 @@
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+                <b><p>No Notifications today</p></b>
+            {% endif %}
         </div>
     </div>
 </section>
