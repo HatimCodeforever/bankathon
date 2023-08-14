@@ -185,3 +185,179 @@ $('.range, .range-alert').on('mousedown', function(event) {
 });
 
 });
+
+
+let names = ['CEO - Chief Executive Officer',
+  'COO (Chief Operating Officer)',
+  'CFO (Chief Financial Officer)',
+  'CMO (Chief Marketing Officer)',
+  'CTO (Chief Technology Officer)',
+  'CIO (Chief Information Officer)',
+  'CCO (Chief Communications Officer)',
+  'CHRO (Chief Human Resources Officer)',
+  
+  'Vice President (VP)',
+  'Director',
+  'Manager',
+  'Team Lead',
+  'Supervisor',
+  'Operations and Administration',
+  
+  'Operations Manager',
+  'Office Manager',
+  'Administrative Assistant',
+  'Receptionist',
+  'Facilities Manager',
+  'Sales and Marketing',
+  
+  'Sales Representative',
+  'Account Manager',
+  'Marketing Manager',
+  'Digital Marketing Specialist',
+  'Brand Manager',
+  'Finance and Accounting',
+  
+  'Accountant',
+  'Financial Analyst',
+  'Bookkeeper',
+  'Payroll Specialist',
+  'Tax Specialist',
+  'Human Resources:',
+  
+  'HR Manager',
+  'Talent Acquisition Specialist',
+  'Training and Development Manager',
+  'Compensation and Benefits Analyst',
+  'Information Technology:',
+  
+  'IT Manager',
+  'Network Administrator',
+  'Software Engineer',
+  'Data Analyst',
+  'Systems Analyst',
+  'Customer Service and Support:',
+  
+  'Customer Service Representative',
+  'Technical Support Specialist',
+  'Help Desk Analyst',
+  'Customer Success Manager',
+  'Research and Development:',
+  
+  'Research Scientist',
+  'Product Development Engineer',
+  'Research Analyst',
+  'Legal and Compliance',
+  
+  'General Counsel',
+  'Compliance Officer',
+  'Paralegal',
+  'Creative and Design',
+  
+  'Graphic Designer',
+  'UX/UI Designer',
+  'Art Director',
+  'Copywriter',
+  'Manufacturing and Operations',
+  
+  'Production Supervisor',
+  'Quality Control Inspector',
+  'Operations Analyst',
+  'Healthcare and Medical',
+  
+  'Doctor',
+  'Nurse',
+  'Medical Technologist',
+  'Health Administrator',
+  'Education and Training',
+  
+  'Teacher',
+  'Trainer',
+  'Education Coordinator',
+  'Logistics and Supply Chain',
+  
+  'Logistics Manager',
+  'Supply Chain Analyst',
+  'Warehouse Supervisor',
+  'Public Relations and Communications',
+  
+  'Public Relations Specialist',
+  'Communications Manager',
+  'Media Relations Coordinator',
+  'Environmental and Sustainability',
+  
+  'Environmental Scientist',
+  'Sustainability Coordinator',
+  'Research and Analytics',
+  
+  'Data Scientist',
+  'Market Research Analyst',
+  'Business Analyst',
+  'Project Management',
+  
+  'Project Manager',
+  'Scrum Master',
+  'Agile Coach',
+  'Consulting and Advisory',
+  
+  'Management Consultant',
+  'Financial Advisor',
+  'Strategy Analyst',
+  'Software Developer',
+  'DevOps Engineer',
+  'Front-end Developer',
+  'Back-end Developer',
+  'Full Stack Developer',
+  'UI/UX Designer',
+  'QA Engineer (Quality Assurance)',
+  'Systems Architect',
+  'Database Administrator',
+  'Cloud Engineer',
+  'Mobile App Developer',
+  'Data Engineer',
+  'Machine Learning Engineer',
+  'AI Specialist',
+  'Security Engineer',
+  'Network Engineer',
+  'Systems Administrator',
+  'Site Reliability Engineer (SRE)',
+  'Embedded Software Engineer',
+  'Game Developer',
+  'Web Developer',
+  'Integration Engineer',
+  'Automation Engineer',
+]
+
+
+let sortNames = names.sort();
+
+let input = document.getElementById("jobTitle");
+
+input.addEventListener("keyup", (e) => {
+  removeElements();
+  for (let i of sortNames) {
+    if (i.toLowerCase().startsWith(input.value.toLowerCase()) && input.value != "") {
+      let listItem = document.createElement("li");
+      listItem.classList.add("list-items");
+      listItem.style.cursor = "pointer";
+      listItem.setAttribute("onclick", "displayNames('" + i + "')");
+
+      let word = "<b>" + i.substr(0, input.value.length) + "</b>";
+      word += i.substr(input.value.length);
+
+      listItem.innerHTML = word;
+      document.querySelector(".list").appendChild(listItem);
+    }
+  }
+});
+
+function displayNames(value) {
+  input.value = value;
+  removeElements()
+}
+
+function removeElements() {
+  let items = document.querySelectorAll(".list-items");
+  items.forEach((item) => {
+    item.remove();
+  });
+}
