@@ -250,6 +250,7 @@ def del_notif():
     data = request.json
     questions = data.get('questions', [])
     answers = data.get('answers', [])
+    print("Answer:- ",answers)
     collection = MongoDB('shortlisted')
     result = collection.find_one_and_delete({'user_id': session['user_id'],'job_id': session['jobid']})
     prompt = openai.ChatCompletion.create(
