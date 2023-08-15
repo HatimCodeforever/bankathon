@@ -17,7 +17,7 @@ endButton.addEventListener("click", () => {
 
   Swal.fire({
     title: "Interview Completed",
-    text: "You will be notified about the job application thankyou!",
+    text: "You will be notified about the results from us shortly! Thank you!",
     icon: "success",
     confirmButtonText: "OK",
   }).then((result) => {
@@ -56,12 +56,28 @@ var interviewQuestions = []
    
 let currentQuestionIndex = 0;
 
+
+let voices = [];
+window.speechSynthesis.onvoiceschanged = function() {
+  voices = window.speechSynthesis.getVoices();
+};
+
+const speak = (text) => {
+  let msg = new SpeechSynthesisUtterance();
+  let chosenVoice = voices[82];
+  msg.voice = chosenVoice;
+  msg.text = text;
+  window.speechSynthesis.speak(msg);
+};
+
 function displayQuestion(index) {
   questionsList.innerHTML = "";
   if (index >= 0 && index < interviewQuestions.length) {
     const li = document.createElement("li");
     li.textContent = interviewQuestions[index];
     questionsList.appendChild(li);
+    const questionText = interviewQuestions[index];
+    speak(questionText)
 
     if (index === interviewQuestions.length - 1) {
       nextButton.style.display = "none";
@@ -117,7 +133,7 @@ function toggleCamera() {
             } else {
               Swal.fire({
                 title: 'Error!',
-                text: 'Face does not Match!1, try again',
+                text: 'Face does not match! Try again',
                 icon: 'error',
                 confirmButtonText: 'Okay'
               });
@@ -146,7 +162,7 @@ let f_transcript = "";
 function toggleMicrophone() {
   if (!recognition) {
     f_transcript = "";
-    toggleMicButton.textContent = "Click to save the answer";
+    toggleMicButton.textContent = "Save Answer";
     recognition = new webkitSpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = false;
@@ -171,7 +187,7 @@ function toggleMicrophone() {
 
     recognition.start();
   } else {
-    toggleMicButton.textContent = "CLick this to Speak";
+    toggleMicButton.textContent = "Speak Answer";
     recognition.stop();
     recognition = null;
   }
