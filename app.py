@@ -167,7 +167,7 @@ def save_job():
         messages= [
             {
                 "role": "system",
-                "content": '''You are an interviewer and you are supposed to ask questions to a candidate who has applied for the job. Your task is to ask 5 questions on the topics specified to you by the HR team. The HR team will provide you a dictionary of topics and their corresponding difficulties. The maximum weightage that can be assigned to a topic is 5. Refrain from adding any irrelevant information or details besides the questions.
+                "content": '''You are an interviewer and you are supposed to ask questions to a candidate who has applied for the job. Your task is to ask a total 15 questions on the topics specified to you by the HR team. The HR team will provide you a dictionary of topics and their corresponding difficulties. The maximum weightage that can be assigned to a topic is 5. Refrain from adding any irrelevant information or details besides the questions.
                 Template - 
                 "{Questions on all the topics in a list}'''
             },

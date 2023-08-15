@@ -126,7 +126,7 @@
           <div class="chart-container" style="height: 165px;">
             <div class="chart-info-wrapper">
               <h2>Rejected Applications</h2>
-              <span>Count: {{rej}}</span>
+              <span>Count: {{'%.1f' %rej}}</span>
             </div>
             <div class="chart-svg">
               <svg viewBox="0 0 36 36" class="circular-chart pink">
@@ -136,7 +136,7 @@
                 <path class="circle" stroke-dasharray="30, 100" d="M18 2.0845
             a 15.9155 15.9155 0 0 1 0 31.831
             a 15.9155 15.9155 0 0 1 0 -31.831"></path>
-                <text x="18" y="20.35" class="percentage">{{rej_per}}%</text>
+                <text x="18" y="20.35" class="percentage">{{'%.1f' %rej_per}}%</text>
               </svg>
             </div>
           </div>
@@ -177,7 +177,7 @@
             <div class="progress-bar-info">
               <span class="progress-color rejected"></span>
               <span class="progress-type">Rejected</span>
-              <span class="progress-amount">{{rej_per}}%</span>
+              <span class="progress-amount">{{'%.1f' %rej_per}}%</span>
             </div>
           </div>
         </div>
@@ -186,8 +186,8 @@
         <div class="chart-container-wrapper big">
           <div class="chart-container">
             <div class="chart-container-header">
-              <h2>Top Active Jobs</h2>
-              <span>Last 30 days</span>
+              <h2>Applications this week</h2>
+              <span>Last 7 days</span>
             </div>
             <div id="barchart_values"></div>
           </div>
