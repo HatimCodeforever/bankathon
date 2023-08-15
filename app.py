@@ -229,7 +229,7 @@ def recruiter_job_list():
 def notification():
     collection = MongoDB('shortlisted')
     collection_jobs = MongoDB('jobs')
-    notif = collection.find({'user_id': session['user_id']})
+    notif = collection.find({'user_id': session['user_id'],'notif': True})
     print(session['user_id'])
     job_info_list = []
     for shortlisted_job in notif:
@@ -250,13 +250,15 @@ def del_notif():
     collection = MongoDB('applicant')
     user = collection.find_one({'_id': ObjectId(session['user_id'])})
     collection = MongoDB('jobs')
-    job_id = request.form.get('job')
-    job = collection.find_one({'_id': ObjectId(job_id)})
+    job = collection.find_one({'_id': ObjectId(session['jobid'])})
     data = request.json
     questions = data.get('questions', [])
     answers = data.get('answers', [])
     print("Answer:- ",answers)
     collection = MongoDB('shortlisted')
+    query = {'job_id': session['jobid']} 
+    update_data = {'$set': {'notif': False}}
+    collection.update_one(query, update_data)
     prompt = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages= [
@@ -397,7 +399,8 @@ def run_script():
             new_record = {
             'user_id' : session['user_id'],
             'job_id'  : job_id,
-            'rec_id'  : rec_id,   
+            'rec_id'  : rec_id,
+            'notif'   : True
             }
             collection = MongoDB('shortlisted')
             result = collection.insert_one(new_record)
